@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <%- include("../fragmente/head.ejs") %>
+        <meta name="description" content="Pagina de eroare - <%= locals.titlu %>">
+        <meta name="keywords" content="eroare, pagina nu exista, 404">
+        <title><%= locals.titlu %></title>
+    </head>
+    <body>
+        
+    <%- include("../fragmente/header.ejs") %> 
+
+    <main>
+        <div id="err-coloane">
+			<div id="err-imag">
+				<img src="<%- locals.imagine %>" alt="<%- locals.titlu %>" />
+			</div>
+			<section>
+				<h2><%- locals.titlu %></h2>
+				<p><%- locals.text %></p>
+			</section>
+		</div>
+    </main>
+    
+    <%- include("../fragmente/footer.ejs") %> 
+
+    </body>
+</html>

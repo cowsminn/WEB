@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<!-- Comentariu -->
+<html lang="ro">
+<head>
+    <title>ElectroDelicii</title>
+    <meta charset="UTF-8"><!-- codificarea în memorie a caracterelor-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- va fi explicat când ajungem la CSS -->
+    <meta name="keywords" content="vechituri, targ de vechituri, piata de vechituri, valea cascadelor, vitan, bucuresti, second-hand"><!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
+    <meta name="description" content="ElectroDelicii. Vechituri, electronice, antichitati, Vitan, Valea Cascadelor. Lucruri gasite sau cumparate din targurile Vitan si Valea Cascadelor, Bucuresti"><!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
+    <meta name="author" content="Your Name">
+    <link rel="icon" type="image/png" href="./src/ico/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./src/ico/favicon.svg" />
+    <link rel="shortcut icon" href="./src/ico/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./src/ico/apple-touch-icon.png" />
+    <link rel="manifest" href="./src/ico/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Stiluri CSS -->
+    <link rel="stylesheet" href="./src/css/stil.css" type="text/css"/>
+    <link rel="stylesheet" href="./src/css/layout.css" type="text/css"/>
+    <link rel="stylesheet" href="./src/css/nav.css" type="text/css"/>
+    <link rel="stylesheet" href="./src/css/print.css" type="text/css" media="print"/>
+    <!-- Adăugă Font Awesome pentru iconițele din meniu pe tableta -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>ElectroDelicii</h1>
+        <!-- Meniu actualizat conform implementării nav.css -->
+<div id="variante-meniu">
+    <!-- Meniu principal pentru desktop -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Acasă</a>
+                <ul>
+                    <li><a href="#welcome">Welcome</a></li>
+                    <li><a href="#intrebari">Întrebări</a></li>
+                    <li><a href="#videouri">Videouri</a></li>
+                </ul>
+            </li>
+            <li><a href="galerii.html">Galerii</a>
+                <ul>
+                    <li><a href="galerie-statica.html">Galerie Statică</a></li>
+                    <li><a href="galerie-dinamica.html">Galerie Dinamică</a></li>
+                </ul>
+            </li>
+            <li><a href="produse.html">Produse</a>
+                <ul>
+                    <li><a href="electronice.html">Electronice</a></li>
+                    <li><a href="antichitati.html">Antichități</a></li>
+                </ul>
+            </li>
+            <li><a href="targuri.html">Târguri</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Buton Meniu pentru mobil (hamburger) - doar iconița, fără text -->
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Meniu secundar pentru versiunea mobilă -->
+    <div class="menu-secundar">
+        <a href="index.html">Acasă</a>
+        <a href="#welcome" class="submenu-item">Welcome</a>
+        <a href="#intrebari" class="submenu-item">Întrebări</a>
+        <a href="#videouri" class="submenu-item">Videouri</a>
+        <a href="galerii.html">Galerii</a>
+        <a href="galerie-statica.html" class="submenu-item">Galerie Statică</a>
+        <a href="galerie-dinamica.html" class="submenu-item">Galerie Dinamică</a>
+        <a href="produse.html">Produse</a>
+        <a href="electronice.html" class="submenu-item">Electronice</a>
+        <a href="antichitati.html" class="submenu-item">Antichități</a>
+        <a href="targuri.html">Târguri</a>
+        <a href="contact.html">Contact</a>
+    </div>
+</div>
+
+    </header>
+
+    <main>
+        <div id="grid-pagina">
+            <!-- Zona 1: Prezentare (Z-pattern) -->
+            <section id="welcome" class="z-pattern">
+                <div class="top-left">
+                    <h2>Bine ați venit la ElectroDelicii</h2>
+                    <p><span><b>Bazarul cu Amintiri</b> este <b>târgul</b> autentic în care sute de vânzători expun produse atât de variate încât este aproape imposibil să pleci de aici fără vreo achiziție importantă.</span></p>
+                </div>
+                <div class="top-right">
+                    <figure class="element-animat">
+                        <img src="./src/img/ss2.png" alt="Târgul de vechituri" title="Târgul de vechituri">
+                    </figure>
+                </div>
+                <div class="bottom-left">
+                    <p><b>Bazarul cu Amintiri</b> este locul ideal în care să-ți faci cunoscute <em>produsele</em>. Mii de vizitatori ne trec pragul în fiecare zi de <b>târg</b>, în căutare de obiecte inedite.</p>
+                </div>
+                <div class="bottom-right">
+                    <p>Vei fi surprins de varietatea exponatelor de valoare pe care le propun vânzătorii Bazarului cu Amintiri: lucrări de artă, mobilier vechi, jucării sau obiecte care au scris istorie. <strong>SPOR LA CAUTARI</strong></p>
+                </div>
+            </section>
+            
+            <!-- Zona 2: Tabel -->
+            <section class="tabel-container">
+                <h2>Programul târgurilor</h2>
+                <div class="tabel-scroll">
+                    <table class="tabel-program">
+                        <caption>Informații despre programul și locațiile târgurilor din București</caption>
+                        <thead>
+                            <tr>
+                                <th>Nume târg</th>
+                                <th>Zile</th>
+                                <th>Program</th>
+                                <th>Secțiune</th>
+                                <th>Produse populare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">Valea Cascadelor</td>
+                                <td>joi</td>
+                                <td>07:00 - 15:00</td>
+                                <td>A (Est)</td>
+                                <td>Electronică</td>
+                            </tr>
+                            <tr>
+                                <td>sâmbătă, duminică</td>
+                                <td>07:00 - 16:00</td>
+                                <td>A+B (Est+Vest)</td>
+                                <td>Electronică, Antichități</td>
+                            </tr>
+                            <tr>
+                                <td>Vitan</td>
+                                <td>sâmbătă, duminică</td>
+                                <td>07:00 - 15:00</td>
+                                <td>Toate zonele</td>
+                                <td>Antichități, Mobilier</td>
+                            </tr>
+                            <tr>
+                                <td>Dragonul Roșu</td>
+                                <td>luni - vineri</td>
+                                <td>06:00 - 14:00</td>
+                                <td>C (Sud)</td>
+                                <td>Electronice, Haine</td>
+                            </tr>
+                            <tr>
+                                <td>Dragonul Roșu</td>
+                                <td>sâmbătă, duminică</td>
+                                <td>06:00 - 16:00</td>
+                                <td colspan="2">Toate zonele și produsele</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">* Programul poate suferi modificări în timpul sărbătorilor legale</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Zona 3: Calendar evenimente (placeholder) -->
+            <section class="calendar-container">
+                <h2>Calendar evenimente</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac est at lorem fermentum congue. Sed vehicula metus vel augue tempus, vel fringilla neque facilisis.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 4: Anunțuri (placeholder) -->
+            <section class="anunturi-container">
+                <h2>Anunțuri recente</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim diam eget sem imperdiet, ac faucibus arcu consequat.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 5: Lista utilizatori online (placeholder) -->
+            <section class="utilizatori-container">
+                <h2>Utilizatori online</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec ultrices justo.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 6: Date utilizator și statistici (placeholder) -->
+            <section class="statistici-container">
+                <h2>Statistici</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis orci non magna tempus, eu accumsan arcu volutpat.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 7: Date despre site și server (placeholder) -->
+            <section class="server-container">
+                <h2>Informații server</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices sapien quis pulvinar tempus.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 8: Conținut divers (design creativ) -->
+            <section class="diverse-container element-animat">
+                <h2>Descoperiți comori vintage</h2>
+                
+                <div id="intrebari">
+                    <h3>Întrebări frecvente</h3>
+                    <details>
+                        <summary>De unde cumpărați produsele?</summary>
+                        <p>Târgul Vitan și Târgul Valea Cascadelor</p>
+                    </details>
+                    <details>
+                        <summary>Ce program au târgurile?</summary>
+                        <p>Valea Cascadelor: joi, sambata si duminica intre orele 07:00 - 15:00</p>
+                        <p>Vitan: sambata si duminica intre orele 07:00 - 15:00</p>
+                    </details>
+                </div>
+                
+                <h3>Harta Târgurilor</h3>
+                <figure>
+                    <img src="./src/img/harta_targuri.png" alt="Harta targurilor din Bucuresti" usemap="#targuri-map" width="600" height="400">
+                    <map name="targuri-map">
+                        <area shape="rect" coords="50,50,200,150" href="https://www.google.com/maps/place/Bazarul+cu+Amintiri+-+T%C3%A2rgul+Valea+Cascadelor/" alt="Targul Valea Cascadelor" title="Viziteaza Targul Valea Cascadelor">
+                        <area shape="circle" coords="350,100,80" href="https://www.google.com/maps/place/Târgul+Vitan/" alt="Targul Vitan" title="Viziteaza Targul Vitan">
+                        <area shape="poly" coords="450,200,550,250,500,350,400,300" href="https://www.google.com/maps/place/Piața+Obor/" alt="Piata Obor" title="Viziteaza Piata Obor">
+                    </map>
+                    <figcaption>Harta interactivă a principalelor târguri din București. Click pe diferite zone pentru a afla mai multe.</figcaption>
+                </figure>
+                
+                <h3>Reducere de preț</h3>
+                <p>Funcție pentru calculul prețului cu reducere:</p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mrow>
+                        <mi>f</mi>
+                        <mo>(</mo>
+                        <mi>x</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>x</mi>
+                        <mo>-</mo>
+                        <mfrac>
+                            <mrow>
+                                <mn>20</mn>
+                            </mrow>
+                            <mrow>
+                                <mn>100</mn>
+                            </mrow>
+                        </mfrac>
+                        <mo>*</mo>
+                        <mi>x</mi>
+                    </mrow>
+                </math>
+                
+                <h3>Despre târgurile de vechituri</h3>
+                <article>
+                    <p>Târgurile de vechituri sunt locuri unde puteți găsi obiecte <i>vintage</i>, <i>antichități</i> și diverse produse <i>second-hand</i> la prețuri avantajoase.</p>
+                    <p>Termenul de <dfn>antichitate</dfn> se referă la obiectele vechi care au o valoare istorică sau artistică semnificativă.</p>
+                    <p>Termenul <abbr title="Second Hand">SH</abbr> este folosit pentru a desemna produsele care au fost folosite anterior.</p>
+                    
+                    <blockquote>
+                        <q>Fiecare obiect are o poveste de spus, iar în târgurile de vechituri, poveștile sunt la tot pasul</q>
+                        - <cite>Ghidul colecționarului de antichități</cite>
+                    </blockquote>
+                </article>
+                
+                <h3>Documente utile</h3>
+                <p>Descărcați catalogul nostru complet în format PDF:</p>
+                <a href="./src/docs/catalog.pdf" download="catalog_electrodelicii.pdf" class="element-animat">Descarcă catalogul</a>
+            </section>
+        </div><!-- Închiderea #grid-pagina -->
+        
+        <!-- Container video imediat după grid, înainte de footer -->
+        <section id="videouri" class="container-iframe">
+            <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/Odz9YihGvOI?si=PBw0nqclsiQ1LyqS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <div class="taburi-iframe">
+                <a href="https://www.youtube.com/embed/8eSJH1e_g2k?si=ZKT31pm8QGjFRaV4" target="ifr-video" id="ep1">Episodul 1</a>
+                <a href="https://www.youtube.com/embed/Odz9YihGvOI?si=PBw0nqclsiQ1LyqS" target="ifr-video" id="ep2">Episodul 2</a>
+                <a href="https://www.youtube.com/embed/TcHjySQHzB0?si=4MJcjDZ1ZWcAjFYA" target="ifr-video" id="ep3">Episodul 3</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <a href="#" id="link-top">
+            <div id="arrow">
+                <span>&#8593;</span>
+            </div>
+            <div class="tooltiptext">Mergi sus</div>
+        </a>
+        <address>
+            <br/>
+            Splaiul Unirii 450, Bucuresti 030139
+            <br/>
+            <a href="mailto:contact@electrodelicii.ro">Mail</a>
+            <a href="tel:+40712345678">Telefon</a>
+            <a href="https://api.whatsapp.com/send?phone=40712345678">Whatsapp</a>
+            <br/>
+            <a href="https://www.google.com/maps/place/Bazarul+cu+Amintiri+-+T%C3%A2rgul+Valea+Cascadelor/@44.4233504,25.9988193,17z/data=!3m1!4b1!4m6!3m5!1s0x40b200f25cb83035:0x1fd227d80c56353d!8m2!3d44.4233504!4d25.9988193!16s%2Fg%2F11b_3gq7t4?entry=ttu" target="_blank">Targ Valea Cascadelor</a>
+        </address>
+        
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.1940097684792!2d25.99663041570301!3d44.423350379101984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b200f25cb83035%3A0x1fd227d80c56353d!2sBazarul%20cu%20Amintiri%20-%20T%C3%A2rgul%20Valea%20Cascadelor!5e0!3m2!1sro!2sro!4v1683550058789!5m2!1sro!2sro" 
+            width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <p class="banner">Acesta este un proiect școlar!</p>
+        
+        <p><small>Copyright &copy; <time datetime="2025-05-17">17 Mai 2025</time> ElectroDelicii. Toate drepturile rezervate.</small></p>
+    </footer>
+    
+    <!-- Script pentru funcționalitatea butoanelor active și menu burger -->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Funcționalitate pentru meniul toggle (hamburger)
+    const menuToggle = document.querySelector('#variante-meniu .menu-toggle');
+    const menuSecundar = document.querySelector('#variante-meniu .menu-secundar');
+    const navMenu = document.querySelector('#variante-meniu nav');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            menuSecundar.classList.toggle('active');
+            
+            // Aplicăm transformările pentru elementele din meniul secundar
+            if (menuSecundar.classList.contains('active')) {
+                const menuItems = menuSecundar.querySelectorAll('a');
+                menuItems.forEach(function(item, index) {
+                    // Adăugăm un delay incremental pentru fiecare element
+                    item.style.transitionDelay = (index * 0.05) + 's';
+                });
+            } else {
+                // Resetăm delay-ul la închiderea meniului
+                const menuItems = menuSecundar.querySelectorAll('a');
+                menuItems.forEach(function(item) {
+                    item.style.transitionDelay = '0s';
+                });
+            }
+        });
+    }
+    
+    // Verifică dimensiunea ecranului și ajustează meniul în consecință
+    function adjustMenuForScreenSize() {
+        const screenWidth = window.innerWidth;
+        
+        if (screenWidth <= 700) {
+            // Meniu burger pentru ecrane mici
+            if (navMenu) navMenu.style.display = 'none';
+            if (menuToggle) menuToggle.style.display = 'block';
+        } else {
+            // Meniu normal pentru ecrane medii și mari
+            if (navMenu) {
+                navMenu.style.display = 'block';
+                
+                // Asigurăm că meniul principal rămâne orizontal
+                const mainMenu = navMenu.querySelector('ul');
+                if (mainMenu) {
+                    mainMenu.style.flexDirection = 'row';
+                    mainMenu.style.display = 'flex';
+                }
+            }
+            
+            if (menuToggle) menuToggle.style.display = 'none';
+            if (menuSecundar) menuSecundar.classList.remove('active');
+        }
+    }
+    
+    // Rulăm funcția la încărcarea paginii
+    adjustMenuForScreenSize();
+    
+    // Și la redimensionarea ferestrei
+    window.addEventListener('resize', adjustMenuForScreenSize);
+    
+    // Asigurăm că submeniile se comportă corect
+    const menuItems = document.querySelectorAll('#variante-meniu nav > ul > li');
+    menuItems.forEach(function(item) {
+        const submenu = item.querySelector('ul');
+        if (submenu) {
+            // Submeniul va fi afișat doar la hover pe desktop
+            item.addEventListener('mouseenter', function() {
+                if (window.innerWidth > 700) {
+                    submenu.style.display = 'flex';
+                    submenu.style.flexDirection = 'column';
+                    submenu.style.position = 'absolute';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                if (window.innerWidth > 700) {
+                    submenu.style.display = 'none';
+                }
+            });
+        }
+    });
+    
+    // Fix pentru orice stylesheet care ar putea afecta meniul
+    function fixMenuStyles() {
+        if (window.innerWidth > 700) {
+            // Forțăm meniul să rămână orizontal pe desktop
+            const mainMenu = document.querySelector('#variante-meniu nav > ul');
+            if (mainMenu) {
+                mainMenu.style.flexDirection = 'row';
+                mainMenu.style.display = 'flex';
+            }
+            
+            // Ne asigurăm că submeniile sunt verticale și ascunse
+            const submenus = document.querySelectorAll('#variante-meniu nav > ul > li > ul');
+            submenus.forEach(function(submenu) {
+                submenu.style.flexDirection = 'column';
+                submenu.style.position = 'absolute';
+                submenu.style.display = 'none';
+            });
+        }
+    }
+    
+    // Aplicăm fixul inițial și la orice redimensionare
+    fixMenuStyles();
+    window.addEventListener('resize', fixMenuStyles);
+});
+    </script>
+</body>
+</html>

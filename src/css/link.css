@@ -1,0 +1,73 @@
+/* Link-uri standard */
+a {
+    color: var(--culoare-3);
+    text-decoration: none;
+    position: relative;
+}
+
+/* Link-uri vizitate - culoare diferită din schema cromatică */
+a:visited {
+    color: var(--culoare-2);
+}
+
+/* Link-uri externe - selector pentru href care începe cu "http" */
+a[href^="http"]::before {
+    content: '⮳';
+    font-size: 1.5em; /* 50% mai mare față de fontul linkului */
+    margin-right: 4px;
+    transition: color 0.6s ease; /* Animație mai lentă */
+}
+
+/* Schimbarea culorii simbolului la hover pentru linkuri externe */
+a[href^="http"]:hover::before {
+    color: var(--culoare-1);
+}
+
+/* Efectul de "pată" pentru linkurile din main (nu din meniu și nu din zona video) */
+main a:not(.taburi-iframe a):not(#videouri a) {
+    background-image: radial-gradient(circle, var(--culoare-1) 0%, var(--culoare-1) 40%, transparent 80%, transparent 100%);
+    background-position: center;
+    background-size: 0;
+    background-repeat: no-repeat;
+    transition: background-size 0.8s ease; /* Animație mai lentă pentru pată */
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Creșterea pății la hover */
+main a:not(.taburi-iframe a):not(#videouri a):hover {
+    background-size: 100%;
+    color: white;
+    text-decoration: none;
+}
+
+/* Link-uri din navigație - fără efectul de pată */
+nav a {
+    color: white;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background: none !important; /* Anulează efectul de pată pentru meniu */
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    text-decoration: none;
+}
+
+/* Link-uri din zona video - styling special */
+.taburi-iframe a, #videouri a {
+    color: var(--culoare-3);
+    background: none !important;
+    padding: 8px 16px;
+    border: 1px solid var(--culoare-3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.taburi-iframe a:hover, #videouri a:hover {
+    background-color: var(--culoare-3) !important;
+    color: white;
+    text-decoration: none;
+}

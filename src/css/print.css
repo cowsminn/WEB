@@ -1,0 +1,98 @@
+/* Stiluri pentru printare - print.css */
+
+/* Stiluri generale pentru print */
+@media print {
+    /* Task 2: Ascunderea elementelor de media și dependențelor lor */
+    img, video, iframe, figure, .taburi-iframe, #link-top {
+        display: none !important;
+    }
+    
+    /* Task 3: Setarea grid-ului ca block */
+    #grid-pagina {
+        display: block !important;
+    }
+    
+    /* Task 4: Stilizarea link-urilor ca text normal */
+    a {
+        text-decoration: none !important;
+        color: #000 !important;
+    }
+    
+    /* Task 5: H1 centrat și stilizarea meniului pe prima pagină */
+    header h1 {
+        text-align: center;
+        width: 100%;
+    }
+    
+    /* Stilizare meniu ca listă verticală simplă */
+    header nav ul {
+        display: block !important;
+        text-align: center;
+        margin: 20px auto;
+    }
+    
+    header nav ul li {
+        display: block !important;
+        margin: 10px 0;
+        font-weight: bold;
+    }
+    
+    /* Ascunderea submeniurilor */
+    header nav ul li ul {
+        display: none !important;
+    }
+    
+    /* Page break după meniu și înainte de footer */
+    header nav {
+        page-break-after: always;
+    }
+    
+    footer {
+        page-break-before: always;
+    }
+    
+    /* Task 1: Banner în josul primei pagini */
+    footer p.banner {
+        position: fixed;
+        bottom: 0;
+        left: 15%;
+        width: 70%;
+        text-align: center;
+        border: 4px inset #000;
+        padding: 10px;
+        margin: 20px auto;
+    }
+    
+    /* Task 6 și 7: Watermark și setări de margini pentru paginare */
+/* Înlocuiește secțiunea cu @page din print.css cu următorul cod: */
+
+/* Watermark pe fiecare pagină - soluție alternativă */
+body::after {
+    content: "Caravan Cosmin";
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 4cm;
+    height: 1cm;
+    border: 3px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    z-index: 9999;
+}
+    /* Task 7: Margini diferite pentru pagini pare/impare */
+    @page :left {
+        margin-left: 3cm;
+        margin-right: 1cm;
+    }
+    
+    @page :right {
+        margin-left: 1cm;
+        margin-right: 3cm;
+    }
+}

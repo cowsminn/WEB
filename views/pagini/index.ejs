@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include('../fragmente/head') %>
+</head>
+<body>
+    <%- include('../fragmente/header') %>
+    
+    <main>
+        
+        <div id="grid-pagina">
+            <!-- Zona 1: Prezentare (Z-pattern) -->
+            <section id="welcome" class="z-pattern">
+                <div class="top-left">
+                    <h2>Bine ați venit la ElectroDelicii</h2>
+                    <p><span><b>Bazarul cu Amintiri</b> este <b>târgul</b> autentic în care sute de vânzători expun produse atât de variate încât este aproape imposibil să pleci de aici fără vreo achiziție importantă.</span></p>
+                </div>
+                <div class="top-right">
+                    <figure class="element-animat">
+                        <img src="/src/img/ss2.png" alt="Târgul de vechituri" title="Târgul de vechituri">
+                    </figure>
+                </div>
+                <div class="bottom-left">
+                    <p><b>Bazarul cu Amintiri</b> este locul ideal în care să-ți faci cunoscute <em>produsele</em>. Mii de vizitatori ne trec pragul în fiecare zi de <b>târg</b>, în căutare de obiecte inedite.</p>
+                </div>
+                <div class="bottom-right">
+                    <p>Vei fi surprins de varietatea exponatelor de valoare pe care le propun vânzătorii Bazarului cu Amintiri: lucrări de artă, mobilier vechi, jucării sau obiecte care au scris istorie. <strong>SPOR LA CAUTARI</strong></p>
+                    <p><small>IP client: <%= ip %></small></p>
+                </div>
+            </section>
+            
+            <!-- Zona 2: Tabel -->
+            <section class="tabel-container">
+                <h2>Programul târgurilor</h2>
+                <div class="tabel-scroll">
+                    <table class="tabel-program">
+                        <caption>Informații despre programul și locațiile târgurilor din București</caption>
+                        <thead>
+                            <tr>
+                                <th>Nume târg</th>
+                                <th>Zile</th>
+                                <th>Program</th>
+                                <th>Secțiune</th>
+                                <th>Produse populare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">Valea Cascadelor</td>
+                                <td>joi</td>
+                                <td>07:00 - 15:00</td>
+                                <td>A (Est)</td>
+                                <td>Electronică</td>
+                            </tr>
+                            <tr>
+                                <td>sâmbătă, duminică</td>
+                                <td>07:00 - 16:00</td>
+                                <td>A+B (Est+Vest)</td>
+                                <td>Electronică, Antichități</td>
+                            </tr>
+                            <tr>
+                                <td>Vitan</td>
+                                <td>sâmbătă, duminică</td>
+                                <td>07:00 - 15:00</td>
+                                <td>Toate zonele</td>
+                                <td>Antichități, Mobilier</td>
+                            </tr>
+                            <tr>
+                                <td>Dragonul Roșu</td>
+                                <td>luni - vineri</td>
+                                <td>06:00 - 14:00</td>
+                                <td>C (Sud)</td>
+                                <td>Electronice, Haine</td>
+                            </tr>
+                            <tr>
+                                <td>Dragonul Roșu</td>
+                                <td>sâmbătă, duminică</td>
+                                <td>06:00 - 16:00</td>
+                                <td colspan="2">Toate zonele și produsele</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">* Programul poate suferi modificări în timpul sărbătorilor legale</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Zona 3: Calendar evenimente -->
+            <section class="calendar-container">
+                <h2>Calendar evenimente</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac est at lorem fermentum congue. Sed vehicula metus vel augue tempus, vel fringilla neque facilisis.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 4: Anunțuri -->
+            <section class="anunturi-container">
+                <h2>Anunțuri recente</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim diam eget sem imperdiet, ac faucibus arcu consequat.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 5: Lista utilizatori online -->
+            <section class="utilizatori-container">
+                <h2>Utilizatori online</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec ultrices justo.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 6: Date utilizator și statistici -->
+            <section class="statistici-container">
+                <h2>Date utilizator</h2>
+                <div class="user-info">
+                    <p><strong>IP-ul dumneavoastră:</strong> <%= ip %></p>
+                    <p><small>Momentan este afișat IP-ul local (::1, 127.0.0.1 sau ::ffff:127.0.0.1) deoarece site-ul rulează local. La publicarea pe Internet, se va afișa IP-ul real.</small></p>
+                </div>
+            </section>
+            
+            <!-- Zona 7: Date despre site și server -->
+            <section class="server-container">
+                <h2>Informații server</h2>
+                <div class="placeholder">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices sapien quis pulvinar tempus.</p>
+                </div>
+            </section>
+            
+            <!-- Zona 8: Conținut divers -->
+            <section class="diverse-container element-animat">
+                <h2>Descoperiți comori vintage</h2>
+                
+                <div id="intrebari">
+                    <h3>Întrebări frecvente</h3>
+                    <details>
+                        <summary>De unde cumpărați produsele?</summary>
+                        <p>Târgul Vitan și Târgul Valea Cascadelor</p>
+                    </details>
+                    <details>
+                        <summary>Ce program au târgurile?</summary>
+                        <p>Valea Cascadelor: joi, sambata si duminica intre orele 07:00 - 15:00</p>
+                        <p>Vitan: sambata si duminica intre orele 07:00 - 15:00</p>
+                    </details>
+                </div>
+                
+                <h3>Harta Târgurilor</h3>
+                <figure>
+                    <img src="/src/img/harta_targuri.png" alt="Harta targurilor din Bucuresti" usemap="#targuri-map" width="600" height="400">
+                    <map name="targuri-map">
+                        <area shape="rect" coords="50,50,200,150" href="https://www.google.com/maps/place/Bazarul+cu+Amintiri+-+T%C3%A2rgul+Valea+Cascadelor/" alt="Targul Valea Cascadelor" title="Viziteaza Targul Valea Cascadelor">
+                        <area shape="circle" coords="350,100,80" href="https://www.google.com/maps/place/Târgul+Vitan/" alt="Targul Vitan" title="Viziteaza Targul Vitan">
+                        <area shape="poly" coords="450,200,550,250,500,350,400,300" href="https://www.google.com/maps/place/Piața+Obor/" alt="Piata Obor" title="Viziteaza Piata Obor">
+                    </map>
+                    <figcaption>Harta interactivă a principalelor târguri din București. Click pe diferite zone pentru a afla mai multe.</figcaption>
+                </figure>
+                
+                <h3>Reducere de preț</h3>
+                <p>Funcție pentru calculul prețului cu reducere:</p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mrow>
+                        <mi>f</mi>
+                        <mo>(</mo>
+                        <mi>x</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mi>x</mi>
+                        <mo>-</mo>
+                        <mfrac>
+                            <mrow>
+                                <mn>20</mn>
+                            </mrow>
+                            <mrow>
+                                <mn>100</mn>
+                            </mrow>
+                        </mfrac>
+                        <mo>*</mo>
+                        <mi>x</mi>
+                    </mrow>
+                </math>
+                
+                <h3>Despre târgurile de vechituri</h3>
+                <article>
+                    <p>Târgurile de vechituri sunt locuri unde puteți găsi obiecte <i>vintage</i>, <i>antichități</i> și diverse produse <i>second-hand</i> la prețuri avantajoase.</p>
+                    <p>Termenul de <dfn>antichitate</dfn> se referă la obiectele vechi care au o valoare istorică sau artistică semnificativă.</p>
+                    <p>Termenul <abbr title="Second Hand">SH</abbr> este folosit pentru a desemna produsele care au fost folosite anterior.</p>
+                    
+                    <blockquote>
+                        <q>Fiecare obiect are o poveste de spus, iar în târgurile de vechituri, poveștile sunt la tot pasul</q>
+                        - <cite>Ghidul colecționarului de antichități</cite>
+                    </blockquote>
+                </article>
+                
+                <h3>Documente utile</h3>
+                <p>Descărcați catalogul nostru complet în format PDF:</p>
+                <a href="/src/docs/catalog.pdf" download="catalog_electrodelicii.pdf" class="link-download">Descarcă catalogul</a>
+                
+                <!-- Linkuri de test pentru demonstrarea efectelor -->
+                <h3>Linkuri de test</h3>
+                <p>Link intern: <a href="/contact">Contactează-ne</a></p>
+                <p>Link extern cu efect: <a href="https://www.google.com/maps">Hărți Google</a></p>
+                <p>Alt link extern: <a href="https://www.youtube.com">YouTube</a></p>
+            </section>
+        </div>
+        
+        <!-- Container video cu iframe -->
+        <section id="videouri" class="container-iframe">
+            <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/Odz9YihGvOI?si=PBw0nqclsiQ1LyqS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <div class="taburi-iframe">
+                <a href="https://www.youtube.com/embed/8eSJH1e_g2k?si=ZKT31pm8QGjFRaV4" target="ifr-video" id="ep1">Episodul 1</a>
+                <a href="https://www.youtube.com/embed/Odz9YihGvOI?si=PBw0nqclsiQ1LyqS" target="ifr-video" id="ep2">Episodul 2</a>
+                <a href="https://www.youtube.com/embed/TcHjySQHzB0?si=4MJcjDZ1ZWcAjFYA" target="ifr-video" id="ep3">Episodul 3</a>
+            </div>
+        </section>
+    </main>
+    
+    <%- include('../fragmente/footer') %>
+    
+    <!-- Script pentru meniul burger -->
+    <script>
+    // ...existing code from index.html...
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('#variante-meniu .menu-toggle');
+        const menuSecundar = document.querySelector('#variante-meniu .menu-secundar');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                menuSecundar.classList.toggle('active');
+            });
+        }
+    });
+    </script>
+</body>
+</html>

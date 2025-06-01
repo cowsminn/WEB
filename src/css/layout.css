@@ -1,0 +1,436 @@
+/* Layout pentru site-ul ElectroDelicii - Layout Responsiv îmbunătățit */
+
+/* Resetarea font-size pentru HTML cu tranziție */
+html {
+    font-size: 16px; /* Dimensiune de bază pentru text */
+    transition: font-size 0.3s ease; /* Tranziție pentru dimensiunea textului */
+}
+
+/* Stiluri pentru header și navigare */
+header {
+    width: 100%;
+    display: block;
+}
+
+/* Stiluri generale pentru navigare - acestea NU ar trebui să afecteze #variante-meniu */
+body > nav ul,
+header > nav ul:not(#variante-meniu nav ul) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+body > nav ul li,
+header > nav ul:not(#variante-meniu nav ul) li {
+    position: relative;
+    margin: 0 10px;
+}
+
+body > nav ul li ul,
+header > nav ul:not(#variante-meniu nav ul) li ul {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    top: 100%;
+    left: 0;
+    width: 180px;
+    z-index: 100;
+}
+
+body > nav ul li:hover ul,
+header > nav ul:not(#variante-meniu nav ul) li:hover ul {
+    display: flex;
+}
+
+/* Grid principal pentru aranjarea conținutului */
+#grid-pagina {
+    display: grid;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 15px;
+    /* Definim zonele de grid conform schiței */
+    grid-template-areas:
+        "zona1 zona1 zona1 zona1"
+        "zona2 zona2 zona8 zona8"
+        "zona5 zona6 zona8 zona8"
+        "zona4 zona4 zona3 zona7";
+    grid-template-columns: 1fr 1fr 1.75fr 0.75fr;
+    grid-template-rows: auto auto auto auto;
+    margin-bottom: 30px;
+}
+
+/* Definirea zonelor din grid */
+#welcome {
+    grid-area: zona1;
+}
+
+.tabel-container {
+    grid-area: zona2;
+}
+
+.calendar-container {
+    grid-area: zona3;
+}
+
+.anunturi-container {
+    grid-area: zona4;
+}
+
+.utilizatori-container {
+    grid-area: zona5;
+}
+
+.statistici-container {
+    grid-area: zona6;
+}
+
+.server-container {
+    grid-area: zona7;
+}
+
+.diverse-container {
+    grid-area: zona8;
+}
+
+/* Z-pattern pentru zona1 (mai mult conținut vizual) */
+.z-pattern {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "top-left top-right"
+        "bottom-left bottom-right";
+    gap: 20px;
+    align-items: center;
+}
+
+.z-pattern .top-left { grid-area: top-left; }
+.z-pattern .top-right { grid-area: top-right; }
+.z-pattern .bottom-left { grid-area: bottom-left; }
+.z-pattern .bottom-right { grid-area: bottom-right; }
+
+/* F-pattern pentru zona1 alternativ (mai mult text) */
+.f-pattern {
+    display: flex;
+    flex-direction: column;
+}
+
+.f-pattern-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.f-pattern-row:nth-child(2) {
+    margin-left: 2rem;
+}
+
+/* Stiluri pentru iframe și galerie */
+.taburi-iframe {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 0 auto 25px auto;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%; /* Ocupă tot spațiul disponibil în container */
+    text-align: center;
+    background-color: rgba(0,0,0,0.03);
+    padding: 15px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    grid-column: 1 / -1; /* Se extinde pe toate coloanele grid-ului, dacă este în grid */
+}
+
+.taburi-iframe a {
+    padding: 12px 20px;
+    margin: 5px;
+    text-align: center;
+    min-width: 120px;
+    flex-grow: 1;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Container pentru iframe și taburi - layout vertical cu butoane în dreapta */
+.container-iframe {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+/* Stilizare pentru iframe-ul principal */
+iframe[name="ifr-video"] {
+    width: calc(100% - 220px); /* Lățime mai mică pentru a lăsa spațiu pentru butoane */
+    height: 500px;
+    min-height: 450px;
+    max-width: 900px;
+    margin: 0;
+    display: block;
+    border-radius: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    border: 3px solid #fff;
+    flex: 1;
+}
+
+/* Container vertical pentru butoanele din dreapta */
+.taburi-iframe {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Aliniază butoanele la aceeași lățime */
+    gap: 15px;
+    width: 200px;
+    padding: 0 15px;
+    margin: 0;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+/* Media query pentru ecrane medii */
+@media (max-width: 992px) {
+    .container-iframe {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    
+    iframe[name="ifr-video"] {
+        width: 100%;
+        max-width: 800px;
+        margin-bottom: 20px;
+    }
+    
+    .taburi-iframe {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+}
+
+.galerie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.galerie figure {
+    flex: 1 1 300px;
+    max-width: 400px;
+    margin: 10px;
+}
+
+/* Layout pentru imagini și iframe */
+figure img {
+    width: 100%;
+    height: auto;
+}
+
+figure img[usemap] {
+    max-width: 100%;
+}
+
+/* Layout pentru footer */
+footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Media queries pentru responsive design */
+/* Pentru ecran mediu (tableta) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    html {
+        font-size: 15px;
+    }
+    
+    #grid-pagina {
+        grid-template-areas:
+            "zona1 zona1"
+            "zona2 zona8"
+            "zona5 zona6"
+            "zona3 zona4"
+            "zona7 zona7";
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto auto;
+    }
+    
+    iframe[name="ifr-video"] {
+        height: 400px;
+        max-width: 700px;
+    }
+    
+    .taburi-iframe {
+        max-width: 700px;
+    }
+    
+    footer {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    footer iframe {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    
+    footer address {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: left;
+    }
+    
+    footer p {
+        grid-column: span 2;
+    }
+    
+    /* Nu aplicăm stiluri pe navigare aici pentru a evita conflicte */
+}
+
+/* Pentru ecran mic (mobil) */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    #grid-pagina {
+        grid-template-areas:
+            "zona1"
+            "zona2"
+            "zona8"
+            "zona5"
+            "zona6"
+            "zona4"
+            "zona3"
+            "zona7";
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(8, auto);
+    }
+    
+    /* Eliminăm stilurile pentru nav care pot crea conflicte */
+    /* Stilizările pentru navigare sunt acum exclusiv în nav.css */
+
+    .z-pattern {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "top-left"
+            "top-right"
+            "bottom-left"
+            "bottom-right";
+    }
+    
+    .f-pattern-row {
+        flex-direction: column;
+        margin-left: 0 !important;
+    }
+    
+    iframe[name="ifr-video"] {
+        height: 250px;
+        max-width: 100%;
+    }
+    
+    .taburi-iframe {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .taburi-iframe a {
+        min-width: 100px;
+        flex-basis: calc(50% - 20px);
+        margin: 5px;
+    }
+    
+    /* Dezactivarea animațiilor pe ecran mic */
+    .element-animat {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Stilizare pentru elemente details */
+details {
+    margin-bottom: 10px;
+}
+
+details summary::marker {
+    color: var(--culoare-principala);
+}
+
+details[open] summary {
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--culoare-2);
+}
+
+/* Ajustări pentru iframe */
+iframe {
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Stilizare specială pentru harta de imagini */
+img[usemap] {
+    border-color: var(--culoare-3);
+}
+
+/* Animații și efecte pentru interactivitate */
+@media (min-width: 769px) {
+    .element-animat {
+        transition: all 0.3s ease;
+    }
+
+    /* Hover effects pentru imagini */
+    figure img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+}
+
+/* Stilizare pentru blockquote */
+blockquote {
+    position: relative;
+}
+
+blockquote:before {
+    content: '"';
+    font-size: 3em;
+    color: var(--culoare-2);
+    opacity: 0.3;
+    position: absolute;
+    top: -10px;
+    left: 5px;
+}
+
+/* Stiluri pentru placeholder-uri */
+.placeholder {
+    background-color: rgba(var(--culoare-2-rgb), 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: italic;
+    color: var(--culoare-text);
+}
