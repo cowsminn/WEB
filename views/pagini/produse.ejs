@@ -181,6 +181,7 @@
         <!-- Sectiunea cu produsele -->
         <section id="produse-lista">
             <% if (produse && produse.length > 0) { %>
+                <!-- Fix: Ensure the container ID matches JavaScript selector -->
                 <div class="row g-4" id="produse-container">
                     <% produse.forEach(function(produs) { %>
                         <div class="col-lg-6 col-xl-4">

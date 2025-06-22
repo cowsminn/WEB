@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Script produse-filtre încărcat');
     
-    // Inițializare tema la încărcarea paginii
-    initializeTheme();
-    
     // Elementele din DOM
     const filtre = {
         nume: document.getElementById('filtru-nume'),
@@ -85,7 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let produseVizibile = 0;
         
         produse.forEach(function(produs) {
-            const cardContainer = produs.closest('.col-lg-6, .col-xl-4');
+            // Fix: Update container selector for Bootstrap grid
+            const cardContainer = produs.closest('.col-lg-6') || produs.closest('.col-xl-4');
             let afiseaza = true;
             
             // Filtru nume (textarea)
@@ -190,21 +188,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const container = document.querySelector('.produse-grid');
+        // Fix: Update container selector to match HTML
+        const container = document.querySelector('#produse-container') || document.querySelector('.row.g-4');
         if (!container) return;
         
         const produse = Array.from(container.children);
         
         produse.sort(function(a, b) {
             // Prima cheie: nume
-            const numeA = a.dataset.nume;
-            const numeB = b.dataset.nume;
+            const produsCardA = a.querySelector('.produs-card');
+            const produsCardB = b.querySelector('.produs-card');
+            
+            if (!produsCardA || !produsCardB) return 0;
+            
+            const numeA = produsCardA.dataset.nume;
+            const numeB = produsCardB.dataset.nume;
             let comparatie = numeA.localeCompare(numeB);
             
             // A doua cheie: raportul dimensiune/preț
             if (comparatie === 0) {
-                const raportA = parseFloat(a.dataset.dimensiune) / parseFloat(a.dataset.pret);
-                const raportB = parseFloat(b.dataset.dimensiune) / parseFloat(b.dataset.pret);
+                const raportA = parseFloat(produsCardA.dataset.dimensiune) / parseFloat(produsCardA.dataset.pret);
+                const raportB = parseFloat(produsCardB.dataset.dimensiune) / parseFloat(produsCardB.dataset.pret);
                 comparatie = raportA - raportB;
             }
             
@@ -315,15 +319,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Afișează toate produsele
         const produse = document.querySelectorAll('.produs-card');
-        produse.forEach(produs => produs.style.display = 'block');
+        produse.forEach(produs => {
+            const cardContainer = produs.closest('.col-lg-6') || produs.closest('.col-xl-4');
+            if (cardContainer) {
+                cardContainer.style.display = 'block';
+            }
+        });
         
         // Resetează ordinea inițială (reîncarcă container-ul în ordinea din DOM)
-        const container = document.querySelector('.produse-grid');
+        const container = document.querySelector('#produse-container') || document.querySelector('.row.g-4');
         if (container) {
             const produse = Array.from(container.children);
             produse.sort((a, b) => {
-                const idA = parseInt(a.id.replace('artc-', ''));
-                const idB = parseInt(b.id.replace('artc-', ''));
+                const cardA = a.querySelector('.produs-card');
+                const cardB = b.querySelector('.produs-card');
+                const idA = parseInt(cardA?.id.replace('artc-', '') || 0);
+                const idB = parseInt(cardB?.id.replace('artc-', '') || 0);
                 return idA - idB;
             });
             produse.forEach(produs => container.appendChild(produs));
@@ -362,8 +373,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Tema este gestionată de theme-global.js - nu mai avem cod duplicat aici
-    
     // Funcție pentru afișarea toast-urilor Bootstrap
     function showToast(title, message, type = 'info') {
         const toastContainer = document.getElementById('toast-container') || createToastContainer();
@@ -399,21 +408,3 @@ document.addEventListener('DOMContentLoaded', function() {
         return container;
     }
 });
-
-// Funcție globală pentru aplicarea temei pe toate paginile
-function applyGlobalTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    document.body.setAttribute('data-bs-theme', savedTheme);
-    
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        document.body.classList.remove('light-theme');
-    } else {
-        document.body.classList.add('light-theme');
-        document.body.classList.remove('dark-theme');
-    }
-}
-
-// Aplică tema imediat (înainte de DOMContentLoaded)
-applyGlobalTheme();
