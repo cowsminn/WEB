@@ -45,19 +45,18 @@ header > nav ul:not(#variante-meniu nav ul) li:hover ul {
     display: flex;
 }
 
-/* Grid principal pentru aranjarea conținutului */
+
 #grid-pagina {
     display: grid;
     max-width: 1200px;
     margin: 0 auto;
     gap: 15px;
-    /* Definim zonele de grid conform schiței */
-    grid-template-areas:
-        "zona1 zona1 zona1 zona1"
-        "zona2 zona2 zona8 zona8"
-        "zona5 zona6 zona8 zona8"
-        "zona4 zona4 zona3 zona7";
-    grid-template-columns: 1fr 1fr 1.75fr 0.75fr;
+     grid-template-areas:
+        "zona1 zona1 zona1 zona1 zona1 zona1 zona1 zona1"
+        "zona2 zona2 zona2 zona2 zona8 zona8 zona8 zona8"
+        "zona5 zona5 zona6 zona6 zona8 zona8 zona8 zona8"
+        "zona4 zona4 zona4 zona3 zona3 zona3 zona3 zona7";
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: auto auto auto auto;
     margin-bottom: 30px;
 }

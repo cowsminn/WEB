@@ -1,0 +1,39 @@
+/* Stiluri pentru tema dark în #variante-meniu */
+[data-theme="dark"] #variante-meniu,
+body.dark-theme #variante-meniu {
+    background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+}
+
+[data-theme="dark"] #variante-meniu nav ul li a,
+body.dark-theme #variante-meniu nav ul li a {
+    color: #ecf0f1 !important;
+    
+    &:hover {
+        background-color: rgba(52, 152, 219, 0.2) !important;
+    }
+}
+
+[data-theme="dark"] #variante-meniu .menu-toggle,
+body.dark-theme #variante-meniu .menu-toggle {
+    color: #ecf0f1 !important;
+    border-color: #ecf0f1 !important;
+    
+    &:hover {
+        background-color: rgba(52, 152, 219, 0.2) !important;
+    }
+}
+
+[data-theme="dark"] #variante-meniu .menu-secundar,
+body.dark-theme #variante-meniu .menu-secundar {
+    background-color: #2c3e50 !important;
+    border-color: #4a5f7a !important;
+    
+    a {
+        color: #ecf0f1 !important;
+        border-bottom-color: #4a5f7a !important;
+        
+        &:hover {
+            background-color: rgba(52, 152, 219, 0.2) !important;
+        }
+    }
+}

@@ -1,0 +1,113 @@
+// Variabile pentru configurare
+$border-image: url('../imagini/border-galerie.png');
+$grid-size: 300px;
+$animation-duration: 12s;
+
+// Mixin pentru generarea animațiilor bazate pe numărul de imagini
+@mixin generate-gallery($num-images) {
+  $rows: $num-images / 3;
+  $total-duration: $num-images * 2; // 2 secunde per imagine
+  
+  .galerie-container {
+    width: $grid-size;
+    height: $grid-size;
+    margin: 2rem auto;
+    overflow: hidden;
+    position: relative;
+    border: 20px solid transparent;
+    border-image: $border-image 30 round;
+    border-radius: 15px;
+    
+    &:hover .galerie-grid {
+      animation-play-state: paused;
+    }
+  }
+  
+  .galerie-grid {
+    width: $grid-size * 3;
+    height: $grid-size * $rows;
+    display: grid;
+    grid-template-columns: repeat(3, $grid-size);
+    grid-template-rows: repeat($rows, $grid-size);
+    position: absolute;
+    top: 0;
+    left: -$grid-size;
+    animation: gallery-animation #{$total-duration}s infinite linear;
+    transform-origin: $grid-size $grid-size / 2;
+  }
+  
+  .galerie-imagine {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  // Generez keyframes pentru animație
+  @keyframes gallery-animation {
+    @for $i from 1 through $num-images {
+      $percentage: ($i - 1) / $num-images * 100%;
+      $next-percentage: $i / $num-images * 100%;
+      
+      #{$percentage} {
+        @if $i <= 3 {
+          // Prima linie - translație orizontală
+          transform: translateX(($i - 1) * $grid-size) rotate(0deg);
+        } @else if $i <= 6 {
+          // A doua linie - translație orizontală + verticală
+          $col: ($i - 4);
+          transform: translateX($col * $grid-size) translateY($grid-size) rotate(0deg);
+        } @else {
+          // A treia linie - translație orizontală + verticală
+          $col: ($i - 7);
+          transform: translateX($col * $grid-size) translateY($grid-size * 2) rotate(0deg);
+        }
+      }
+      
+      #{($percentage + $next-percentage) / 2} {
+        @if $i <= 3 {
+          transform: translateX(($i - 1) * $grid-size) rotate(180deg);
+        } @else if $i <= 6 {
+          $col: ($i - 4);
+          transform: translateX($col * $grid-size) translateY($grid-size) rotate(180deg);
+        } @else {
+          $col: ($i - 7);
+          transform: translateX($col * $grid-size) translateY($grid-size * 2) rotate(180deg);
+        }
+      }
+    }
+    
+    100% {
+      transform: translateX(0) rotate(360deg);
+    }
+  }
+}
+
+// Generez stilurile pentru diferite numere de imagini
+.grid-9 {
+  @include generate-gallery(9);
+}
+
+.grid-12 {
+  @include generate-gallery(12);
+}
+
+.grid-15 {
+  @include generate-gallery(15);
+}
+
+// Stiluri generale pentru titlu
+.galerie-animata-titlu {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+// Responsive - ascund galeria animată pe ecrane mici
+@media (max-width: 991.98px) {
+  .galerie-container {
+    display: none !important;
+  }
+}

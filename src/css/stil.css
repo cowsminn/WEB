@@ -17,14 +17,176 @@
     --culoare-background-light-rgb: 255, 255, 255;
     --culoare-background-main: #F5F0E6; /* Bej foarte deschis pentru fundalul principal */
     --culoare-text: #33272A; /* Text închis */
+    
+    /* Variabile pentru tema light/dark */
+    --bg-color: #F5F0E6;
+    --text-color: #33272A;
+    --card-bg: #FFFFFF;
+    --border-color: #dee2e6;
+    --muted-color: #6c757d;
+}
+
+/* Dark theme variables */
+[data-theme="dark"], 
+body.dark-theme {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+    --muted-color: #b0b0b0;
+    --culoare-background-main: #1a1a1a;
+    --culoare-background-light: #2d2d2d;
+    --culoare-text: #e0e0e0;
+    --culoare-principala: #FF6B8A;
+    --culoare-1: #FF8FA3;
+    --culoare-2: #C77684;
+    --culoare-3: #A64A5E;
 }
 
 /* Stiluri generale */
 body {
     font-family: 'Georgia', serif;
     line-height: 1.6;
-    color: var(--culoare-text);
-    background-color: var(--culoare-background-main);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header */
+header {
+    background-color: var(--culoare-principala);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+header h1 {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 2.5rem;
+}
+
+/* Switch pentru tema în header - Bootstrap Integration */
+.header-theme-switch {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.header-theme-switch .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.header-theme-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background-image: none;
+    transition: all 0.3s ease;
+    margin-top: 0;
+    margin-right: 0.5rem;
+}
+
+.header-theme-switch .form-check-input:checked {
+    background-color: var(--culoare-principala);
+    border-color: var(--culoare-1);
+}
+
+.header-theme-switch .form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+}
+
+.header-theme-switch .form-check-label {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.header-theme-switch .form-check-label .fa-sun {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.header-theme-switch .form-check-label .fa-moon {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* When dark theme is active */
+.header-theme-switch .form-check-input:checked + .form-check-label .fa-sun {
+    opacity: 0.5;
+}
+
+.header-theme-switch .form-check-input:checked + .form-check-label .fa-moon {
+    opacity: 1;
+}
+
+/* Stiluri pentru tema dark în header */
+[data-theme="dark"] header, 
+body.dark-theme header {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+}
+
+[data-theme="dark"] .header-theme-switch .form-check-input:checked,
+body.dark-theme .header-theme-switch .form-check-input:checked {
+    background-color: #ffc107;
+    border-color: #ffca2c;
+}
+
+/* Media queries pentru responsive */
+@media (max-width: 768px) {
+    .header-theme-switch {
+        top: 10px;
+        right: 15px;
+    }
+    
+    .header-theme-switch .form-check-input {
+        width: 2.5rem;
+        height: 1.25rem;
+    }
+    
+    .header-theme-switch .form-check-label {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-theme-switch {
+        top: 8px;
+        right: 10px;
+    }
+    
+    .header-theme-switch .form-check-input {
+        width: 2rem;
+        height: 1rem;
+    }
+    
+    .header-theme-switch .form-check-label {
+        font-size: 0.8rem;
+        gap: 0.25rem;
+    }
+}
+
+/* Stiluri generale */
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Prevenirea scroll-ului orizontal */
@@ -260,7 +422,6 @@ a:hover {
     padding: 12px 20px;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     text-align: center;
     min-width: 120px;
@@ -321,7 +482,6 @@ iframe:hover {
     border-radius: 5px;
     font-weight: bold;
     font-size: 1.1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     text-align: center;
     min-width: 150px;
@@ -391,6 +551,20 @@ iframe[name="ifr-video"] {
 }
 
 @media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .header-theme-switch {
+        top: 10px;
+        right: 15px;
+    }
+    
+    .header-theme-switch .form-check-input {
+        width: 2.5rem;
+        height: 1.25rem;
+    }
+    
     iframe[name="ifr-video"] {
         height: 50vh;
         min-height: 400px;
@@ -419,6 +593,20 @@ iframe[name="ifr-video"] {
 }
 
 @media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .header-theme-switch {
+        top: 8px;
+        right: 10px;
+    }
+    
+    .header-theme-switch .form-check-input {
+        width: 2rem;
+        height: 1rem;
+    }
+    
     iframe[name="ifr-video"] {
         height: 40vh;
         min-height: 300px;

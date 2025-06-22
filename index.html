@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="./src/css/stil.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/layout.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/nav.css" type="text/css"/>
+    <link rel="stylesheet" href="./src/css/link.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/print.css" type="text/css" media="print"/>
     <!-- Adăugă Font Awesome pentru iconițele din meniu pe tableta -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -29,6 +30,17 @@
 
 <body>
     <header>
+        <!-- Switch pentru tema în header -->
+        <div class="header-theme-switch">
+            <div class="form-check form-switch">
+                <input class="form-check-input theme-toggle" type="checkbox" role="switch" id="headerThemeSwitch">
+                <label class="form-check-label" for="headerThemeSwitch">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </label>
+            </div>
+        </div>
+        
         <h1>ElectroDelicii</h1>
         <!-- Meniu actualizat conform implementării nav.css -->
 <div id="variante-meniu">
@@ -419,5 +431,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', fixMenuStyles);
 });
     </script>
+    
+    <!-- Add global theme script -->
+    <script src="./src/js/theme-global.js"></script>
 </body>
 </html>

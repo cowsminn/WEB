@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Variabile pentru culorile principale
 $culoare-principala: #CB4967;
 $culoare-secundara: #9D5465;
@@ -7,7 +9,7 @@ $culoare-text: white;
 $culoare-border: #F5F0E6;
 $culoare-shadow: white;
 
-// Breakpoint-uri pentru cele 2 stări (full și mobil)
+// Breakpoint-uri pentru cele 3 stări
 $breakpoint-mobil: 700px;
 $breakpoint-tableta: 1000px;
 
@@ -16,9 +18,10 @@ $menu-padding: 10px 20px;
 $submenu-padding: 10px 15px;
 $submenu-width: 200px;
 $icon-size: 1rem;
+$border-width: 2px;
 
 // Mixins pentru tranzitii și efecte comune
-@mixin transition($proprietate: all, $durata: 0.3s, $timing: ease) {
+@mixin transition($proprietate: all, $durata: 0.6s, $timing: ease) {
   transition: $proprietate $durata $timing;
 }
 
@@ -30,6 +33,12 @@ $icon-size: 1rem;
   transform-origin: $origin;
 }
 
+@mixin scale-animation($scale: 0) {
+  @include transform(scale($scale));
+  @include transform-origin(top left);
+  @include transition(transform, 0.3s, ease);
+}
+
 // Mixin pentru dublă subliniere la hover
 @mixin double-underline {
   text-decoration: underline double $culoare-text;
@@ -37,8 +46,31 @@ $icon-size: 1rem;
   text-decoration-thickness: 3px;
 }
 
-// Mixin pentru generarea delay-urilor pentru animațiile de meniu
-@mixin menu-delays($count, $base-delay: 0.05s) {
+// Mixin pentru efectul ::before de pe butoanele principale
+@mixin button-overlay-effect {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include transform(scaleY(0));
+    @include transform-origin(center);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: $border-width solid $culoare-border;
+    box-shadow: inset 0 0 10px $culoare-shadow;
+    @include transition(transform, 0.6s, ease); // Slow down hover animation
+    z-index: -1;
+  }
+  
+  &:hover::before {
+    @include transform(scaleY(1));
+  }
+}
+
+// Mixin pentru generarea delay-urilor pentru animațiile de meniu mobil
+@mixin menu-animation-delays($count, $base-delay: 0.05s) {
   @for $i from 1 through $count {
     &:nth-child(#{$i}) {
       transition-delay: $i * $base-delay;
@@ -46,16 +78,56 @@ $icon-size: 1rem;
   }
 }
 
-// SCSS Principal pentru meniu
+// Container principal pentru meniu
 #variante-meniu {
   position: relative;
   width: 100%;
   z-index: 100;
   
-  // Stilizare pentru navigarea principală (desktop)
+  // Stilizare buton hamburger pentru ecrane mici
+  .menu-toggle {
+    display: none;
+    background-color: $culoare-principala;
+    color: $culoare-text;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    text-align: left;
+    cursor: pointer;
+    border: none;
+    width: auto;
+    margin-left: 10px;
+    @include transition();
+    
+    &:hover {
+      background-color: color.adjust($culoare-principala, $lightness: -10%);
+    }
+    
+    &.active + .menu-secundar {
+      display: block;
+    }
+  }
+  
+  // Când checkbox-ul este checked, afișează meniul
+  .menu-checkbox:checked ~ .menu-secundar {
+    display: block;
+    
+    a {
+      animation: slideInFromLeft 0.6s ease forwards;
+      @include menu-animation-delays(15, 0.1s);
+      
+      &::before {
+        animation: clipPathTriangle 0.6s ease forwards;
+        animation-delay: inherit;
+      }
+    }
+  }
+  
+  // Stilizare pentru navigarea principală (desktop și tablet)
   nav {
     background-color: $culoare-principala;
-    background-image: linear-gradient(to bottom, lighten($culoare-principala, 5%), darken($culoare-principala, 5%));
+    background-image: linear-gradient(to bottom, 
+      color.adjust($culoare-principala, $lightness: 5%), 
+      color.adjust($culoare-principala, $lightness: -5%));
     
     ul {
       list-style: none;
@@ -63,7 +135,7 @@ $icon-size: 1rem;
       justify-content: center;
       padding: 0;
       margin: 0;
-      flex-direction: row !important; // Forțăm meniul să rămână orizontal
+      flex-direction: row;
       
       li {
         position: relative;
@@ -80,42 +152,22 @@ $icon-size: 1rem;
           font-weight: bold;
           text-align: center;
           @include transition();
-          
-          &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            @include transform(scaleY(0));
-            @include transform-origin(center);
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid $culoare-border;
-            box-shadow: inset 0 0 10px $culoare-shadow;
-            @include transition(transform, 0.3s, ease);
-            z-index: -1;
-          }
-          
-          &:hover::before {
-            @include transform(scaleY(1));
-          }
+          @include button-overlay-effect;
         }
         
-        // Stilizare submeniu
+        // Stilizare submeniu cu animația de scalare
         ul {
           display: none;
-          position: absolute !important; // Forțăm poziția absolută
+          position: absolute;
           top: 100%;
           left: 0;
           background-color: $culoare-secundara;
-          @include transform(scale(0));
-          @include transform-origin(top left);
-          @include transition(transform, 0.3s, ease);
+          @include scale-animation(0);
           z-index: 100;
-          width: $submenu-width !important; // Forțăm lățimea fixă
-          flex-direction: column !important; // Submeniul trebuie să fie vertical
+          width: $submenu-width;
+          flex-direction: column;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
           
           li {
             width: 100%;
@@ -127,44 +179,32 @@ $icon-size: 1rem;
               color: $culoare-text;
               text-align: left;
               font-weight: normal;
+              border: none;
+              
+              &::before {
+                display: none;
+              }
               
               &:hover {
                 @include double-underline;
+                background-color: rgba(255, 255, 255, 0.1);
               }
             }
           }
         }
         
         &:hover ul {
-          display: block;
+          display: flex;
           @include transform(scale(1));
         }
       }
     }
   }
   
-  // Stilizare buton hamburger pentru ecrane mici
-  .menu-toggle {
-    display: none;
-    background-color: $culoare-principala;
-    color: $culoare-text;
-    padding: 10px 15px;
-    font-size: 1.2em;
-    text-align: left; // Alinierea la stânga
-    cursor: pointer;
-    border: none;
-    width: auto; // Doar cât este necesar pentru icon
-    margin-left: 10px; // Spațiu la stânga
-    
-    i {
-      margin-right: 0; // Fără spațiu după iconiță
-    }
-  }
-  
   // Stilizare meniu secundar (mobil)
   .menu-secundar {
     display: none;
-    background-color: darken($culoare-principala, 10%);
+    background-color: color.adjust($culoare-principala, $lightness: -10%);
     padding: 10px 0;
     
     a {
@@ -173,55 +213,163 @@ $icon-size: 1rem;
       color: $culoare-text;
       text-decoration: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      opacity: 1;
+      z-index: 2;
+      transform: translateX(-100%);
+      
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $culoare-secundara;
+        clip-path: polygon(0 0, 0% 50%, 0 100%);
+        z-index: -1;
+      }
+    }
+    
+    &.active {
+      display: block;
+      
+      a {
+        animation: slideInFromLeft 0.6s ease forwards;
+        @include menu-animation-delays(15, 0.1s);
+        
+        &::before {
+          animation: clipPathTriangle 0.6s ease forwards;
+          animation-delay: inherit;
+        }
+      }
+    }
+    
+    // Icon casei mai mare pe mobil
+    a:first-child {
+      font-size: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &::after {
+        content: "\f015";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 1.5rem;
+        color: $culoare-text;
+        position: static;
+        transform: none;
+        z-index: 3;
+      }
+      
+      @include button-overlay-effect;
+    }
+    
+    // Opțiunile cu submeniu - cu click
+    a.has-submenu {
+      &::after {
+        content: "+";
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+        z-index: 3;
+        transition: all 0.3s ease;
+      }
+      
+      @include button-overlay-effect;
+      
+      // Când submeniul este deschis prin JavaScript
+      &.submenu-open {
+        &::after {
+          content: "-";
+          transform: translateY(-50%) rotate(180deg);
+        }
+      }
+    }
+    
+    // Sub-opțiunile - controlate prin JavaScript
+    a.submenu-item {
+      display: none !important;
+      padding-left: 30px;
+      font-size: 0.9em;
+      
+      // Fără săgeata pentru sub-opțiuni
+      &::before {
+        display: none !important;
+      }
+      
+      // Când sunt afișate prin JavaScript - fără animația cu săgeata
+      &.show {
+        display: block !important;
+        // Eliminăm animația fadeIn - ele doar apar instant
+      }
       
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
         @include double-underline;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
       }
+    }
+    
+    // Opțiunile simple fără submeniu - efectul button-overlay (Targuri, Contact, etc.)
+    a:not(.submenu-item):not(.has-submenu):not(:first-child) {
+      @include button-overlay-effect;
     }
   }
 }
 
-// Media queries pentru ecrane medii - doar ajustări minore de dimensiune
+// Media queries pentru tablet (700px - 1000px)
 @media (max-width: $breakpoint-tableta) and (min-width: $breakpoint-mobil) {
   #variante-meniu {
     nav {
-      ul {
-        flex-direction: row !important; // Forțăm meniul să rămână orizontal
-        
-        li {
-          margin: 0 5px; // Spațiere mai mică între elemente
+      > ul {
+        > li {
+          margin: 0 5px;
           
-          a {
+          > a {
             font-size: 0.9rem;
             padding: 8px 15px;
           }
           
-          // Icon Home pentru primul element - dar păstrăm textul
+          // DOAR primul li din lista principală de navigare
           &:first-child > a {
-            padding: 8px 15px;
+            font-size: 0 !important;
+            width: 40px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             
             &::before {
+              display: none !important;
+            }
+            
+            &::after {
               content: "\f015";
               font-family: "Font Awesome 6 Free";
               font-weight: 900;
-              font-size: $icon-size;
-              margin-right: 5px;
-              display: inline-block;
-              position: static; // Resetăm poziția
-              width: auto;
-              height: auto;
-              background-color: transparent;
-              border: none;
-              box-shadow: none;
+              font-size: 1.2rem;
+              color: $culoare-text;
+              position: static;
               transform: none;
-              transition: none;
+              z-index: 3;
             }
           }
           
-          // Ne asigurăm că iconul casă NU apare în submeniu
-          &:first-child > ul > li > a::before {
-            content: none;
+          // Resetez pentru sub-opțiunile din submeniul primului element
+          &:first-child ul li a {
+            font-size: 0.9rem !important;
+            width: auto !important;
+            
+            &::after {
+              display: none !important;
+              content: none !important;
+            }
           }
         }
       }
@@ -229,117 +377,207 @@ $icon-size: 1rem;
   }
 }
 
-// Media queries pentru mobil (burger menu)
+// Media queries pentru mobil (sub 700px)
 @media (max-width: $breakpoint-mobil) {
   #variante-meniu {
-    position: relative;
-    
     nav {
-      display: none !important; // Folosim !important pentru a anula alte stiluri
+      display: none !important;
     }
     
     .menu-toggle {
-      display: block;
+      display: block !important;
+    }
+  }
+}
+
+// Resetări pentru redimensionare
+@media (min-width: $breakpoint-mobil) {
+  #variante-meniu {
+    .menu-toggle {
+      display: none !important;
       
-      &.active + .menu-secundar {
-        display: block;
+      &.active {
+        display: none !important;
       }
     }
     
     .menu-secundar {
-      a {
-        position: relative;
-        overflow: hidden;
-        @include transform(translateX(-100%));
-        @include transition(transform, 0.3s, ease);
-        
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: $culoare-secundara;
-          clip-path: polygon(0 0, 100% 50%, 0 100%);
-          @include transition(clip-path, 0.5s, ease);
-          z-index: -1;
-        }
-      }
+      display: none !important;
       
       &.active {
-        display: block;
-        
-        a {
-          @include transform(translateX(0));
-          animation: slideIn 0.3s ease forwards;
-          
-          // Folosim mixin-ul pentru a genera delay-urile pentru 15 elemente
-          @include menu-delays(15);
-        }
+        display: none !important;
       }
-      
-      // Stilizare specială pentru primul element (acasă)
-      a:first-child::before {
-        content: "\f015";
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        margin-right: 5px;
-        position: relative;
-        display: inline-block;
-        background-color: transparent;
-        clip-path: none;
-      }
-      
-      // Stilizare pentru submeniu-items
-      a.submenu-item {
-        padding-left: 30px;
-        font-size: 0.9em;
-        background-color: darken($culoare-secundara, 10%);
-        
-        &::before {
-          background-color: darken($culoare-secundara, 15%);
-        }
-      }
-    }
-  }
-  
-  // Animația de intrare pentru elementele de meniu pe mobil
-  @keyframes slideIn {
-    0% {
-      transform: translateX(-100%);
-      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-    }
-    100% {
-      transform: translateX(0);
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
   }
 }
 
-// Asigurăm că meniul nu se afișează pe verticală în nicio situație, 
-// cu excepția submeniului și a meniului mobil
-// Anulăm stilurile din layout.css și stil.css care ar putea influența
-@media (min-width: $breakpoint-mobil) {
-  // Resetăm orice stil care ar putea afecta meniul
-  #variante-meniu nav ul,
-  #variante-meniu nav {
-    display: flex !important;
-    flex-direction: row !important;
+// Animația pentru săgeată care dezvăluie textul
+@keyframes arrowReveal {
+  0% {
+    clip-path: polygon(0 0, 0% 50%, 0 100%);
   }
-  
-  #variante-meniu nav ul li ul {
-    display: none;
-    flex-direction: column !important;
-    position: absolute !important;
+  50% {
+    clip-path: polygon(0 0, 80% 50%, 0 100%);
   }
-  
-  #variante-meniu nav ul li:hover ul {
-    display: flex !important;
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
-  
-  #variante-meniu .menu-toggle,
-  #variante-meniu .menu-secundar {
-    display: none !important;
+}
+
+// Animația pentru slide in din stânga
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
   }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// Animația clip-path pentru efectul de săgeată
+@keyframes clipPathTriangle {
+  0% {
+    clip-path: polygon(0 0, 0% 50%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 80% 50%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+// Animația pentru săgeată care se mișcă de la stânga la dreapta
+@keyframes arrowSweepRight {
+  0% {
+    left: -100%;
+    clip-path: polygon(0 0, 70% 50%, 0 100%);
+  }
+  50% {
+    left: 0%;
+    clip-path: polygon(30% 0, 100% 50%, 30% 100%);
+  }
+  100% {
+    left: 100%;
+    clip-path: polygon(30% 0, 100% 50%, 30% 100%);
+  }
+}
+
+// Variabile pentru tema light/dark în navigație
+:root {
+    --nav-bg-light: linear-gradient(135deg, #CB4967, #F2305E);
+    --nav-text-light: white;
+    --nav-hover-light: rgba(255, 255, 255, 0.1);
+    
+    --nav-bg-dark: linear-gradient(135deg, #2c3e50, #34495e);
+    --nav-text-dark: #ecf0f1;
+    --nav-hover-dark: rgba(52, 152, 219, 0.2);
+}
+
+// Stiluri pentru tema dark în header
+header[data-theme="dark"], 
+header.dark-theme {
+    background: var(--nav-bg-dark) !important;
+    color: var(--nav-text-dark) !important;
+    
+    h1 {
+        color: var(--nav-text-dark) !important;
+    }
+    
+    nav ul li a {
+        color: var(--nav-text-dark) !important;
+        
+        &:hover {
+            background-color: var(--nav-hover-dark) !important;
+        }
+    }
+}
+
+// Switch pentru tema în header
+.header-theme-switch {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 1000;
+    
+    .form-check-input {
+        width: 3rem;
+        height: 1.5rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        background-image: none;
+        transition: all 0.3s ease;
+        
+        &:checked {
+            background-color: #0d6efd;
+            border-color: #0a58ca;
+        }
+        
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    }
+    
+    .form-check-label {
+        margin-left: 0.5rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        .fa-sun {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fa-moon {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+    }
+    
+    // When dark theme is active
+    .form-check-input:checked + .form-check-label {
+        .fa-sun {
+            opacity: 0.5;
+        }
+        
+        .fa-moon {
+            opacity: 1;
+        }
+    }
+}
+
+// Media queries pentru switch pe diferite dimensiuni
+@media (max-width: 768px) {
+    .header-theme-switch {
+        top: 8px;
+        right: 15px;
+        
+        .form-check-input {
+            width: 2.5rem;
+            height: 1.25rem;
+        }
+        
+        .form-check-label {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .header-theme-switch {
+        top: 5px;
+        right: 10px;
+        
+        .form-check-input {
+            width: 2rem;
+            height: 1rem;
+        }
+        
+        .form-check-label {
+            font-size: 0.8rem;
+            gap: 0.25rem;
+        }
+    }
 }

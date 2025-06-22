@@ -9,10 +9,22 @@
   "author": "cowsmin",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pg": "^8.16.0",
+    "sass": "1.89.2",
+    "sharp": "^0.33.5"
   },
   "keywords": [
     "vechituri"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cowsminn/WEB.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cowsminn/WEB/issues"
+  },
+  "homepage": "https://github.com/cowsminn/WEB#readme"
 }

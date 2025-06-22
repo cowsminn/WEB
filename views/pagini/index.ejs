@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <%- include('../fragmente/head') %>
+    <%- include('../fragmente/head', { titlu: 'ElectroDelicii - Bazarul cu Amintiri' }) %>
 </head>
 <body>
     <%- include('../fragmente/header') %>
@@ -12,7 +12,7 @@
             <!-- Zona 1: Prezentare (Z-pattern) -->
             <section id="welcome" class="z-pattern">
                 <div class="top-left">
-                    <h2>Bine ați venit la ElectroDelicii</h2>
+                    <h2><span class="text-cu-reflexie" data-text="ElectroDelicii">ElectroDelicii</span> - Bine ați venit</h2>
                     <p><span><b>Bazarul cu Amintiri</b> este <b>târgul</b> autentic în care sute de vânzători expun produse atât de variate încât este aproape imposibil să pleci de aici fără vreo achiziție importantă.</span></p>
                 </div>
                 <div class="top-right">
@@ -205,6 +205,9 @@
             </section>
         </div>
         
+        <!-- Include galeria statică -->
+        <%- include('../fragmente/galerie', { galerie: galerie }) %>
+        
         <!-- Container video cu iframe -->
         <section id="videouri" class="container-iframe">
             <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/Odz9YihGvOI?si=PBw0nqclsiQ1LyqS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -218,9 +221,14 @@
     
     <%- include('../fragmente/footer') %>
     
+    <!-- Add missing CSS file for links -->
+    <link rel="stylesheet" href="/src/css/link.css" type="text/css"/>
+    
+    <!-- Add global theme script -->
+    <script src="/src/js/theme-global.js"></script>
+    
     <!-- Script pentru meniul burger -->
     <script>
-    // ...existing code from index.html...
     document.addEventListener('DOMContentLoaded', function() {
         const menuToggle = document.querySelector('#variante-meniu .menu-toggle');
         const menuSecundar = document.querySelector('#variante-meniu .menu-secundar');
@@ -231,6 +239,39 @@
                 menuSecundar.classList.toggle('active');
             });
         }
+        
+        // Funcție pentru controlul sub-meniului pe mobil
+        const menuItems = document.querySelectorAll('.menu-secundar a.has-submenu');
+        
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle clasa pentru indicator
+                this.classList.toggle('submenu-open');
+                
+                // Găsește următoarele elemente submenu
+                let nextElement = this.nextElementSibling;
+                const submenuItems = [];
+                
+                while (nextElement && nextElement.classList.contains('submenu-item')) {
+                    submenuItems.push(nextElement);
+                    nextElement = nextElement.nextElementSibling;
+                }
+                
+                // Toggle vizibilitatea submenu-ului
+                submenuItems.forEach(function(submenuItem, index) {
+                    if (submenuItem.classList.contains('show')) {
+                        submenuItem.classList.remove('show');
+                    } else {
+                        // Adaugă delay pentru animație
+                        setTimeout(function() {
+                            submenuItem.classList.add('show');
+                        }, index * 100);
+                    }
+                });
+            });
+        });
     });
     </script>
 </body>

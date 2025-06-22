@@ -1,0 +1,99 @@
+ETAPE PROIECT WEB - STATUS TASKURI
+=====================================
+
+ETAPA 4 - FINALIZATĂ
+ETAPA 5 - ÎN PROGRES
+
+1. CONFIGURARE INIȚIALĂ
+   ✅ Creare structură foldere - index.js linia 25-45
+   ✅ Configurare EJS ca motor template - index.js linia 8
+   ✅ Middleware pentru fișiere statice - index.js linia 180
+
+2. GESTIONAREA ERORILOR
+   ✅ Creare fișier erori.json - src/json/erori.json
+   ✅ Funcția initErori() - index.js linia 49-96
+   ✅ Funcția afisareEroare() - index.js linia 101-135
+   ✅ Template eroare.ejs - views/pagini/eroare.ejs
+   ✅ Eroare 404 pentru pagini inexistente - index.js linia 184-206
+   ✅ Eroare 403 pentru foldere /src/ - index.js linia 169-179
+   ✅ Eroare 400 pentru fișiere .ejs - index.js linia 153-156
+
+3. FRAGMENTE TEMPLATE
+   ✅ Fragment head.ejs - views/fragmente/head.ejs
+   ✅ Fragment header.ejs cu meniu - views/fragmente/header.ejs
+   ✅ Fragment footer.ejs - views/fragmente/footer.ejs
+
+4. PAGINI PRINCIPALE
+   ✅ Pagina principală index.ejs cu conținut complet - views/pagini/index.ejs
+   ✅ Pagina contact.ejs - views/pagini/contact.ejs
+   ✅ Afișare IP utilizator - views/pagini/index.ejs linia 76
+
+5. RUTE EXPRESS
+   ✅ Rute de bază (/, /index, /home) - index.js linia 144-149
+   ✅ Favicon cu sendFile() - index.js linia 158-167
+   ✅ Rută catch-all pentru pagini dinamice - index.js linia 184-206
+
+6. STILIZARE LINKURI
+   ✅ CSS pentru linkuri vizitate - src/css/link.css linia 10-12
+   ✅ Simbolul ⮳ pentru linkuri externe - src/css/link.css linia 15-25
+   ✅ Efectul de "pată" pentru linkuri din main - src/css/link.css linia 28-47
+   ✅ Excluderea linkurilor din navigație - src/css/link.css linia 50-62
+
+7. VIDEO VTT (PREGĂTIT)
+   ✅ Fișiere VTT pentru subtitrări - src/video/subtitles_ro.vtt, src/video/subtitles_en.vtt
+   ✅ CSS pentru video responsive - src/css/video.css
+   🔄 Implementare video HTML (pe hold, se folosește iframe)
+
+8. FOLDERE DINAMICE
+   ✅ Vector vect_foldere - index.js linia 24-35
+   ✅ Creare automată foldere temp - index.js linia 37-45
+
+9. GALERIE STATICĂ (ETAPA 5)
+   ✅ Pagina galerie-statica.ejs - views/pagini/galerie-statica.ejs
+   ✅ Fragment galerie.ejs - views/fragmente/galerie.ejs
+   ✅ Afișare imagine targ1.jpeg - src/img/targ1.jpeg
+   ✅ Link în meniu către galerie statică - views/fragmente/header.ejs
+   ✅ CSS Grid 3x4 cu 2 spații goale la rândul 2 - src/css/galerie.css linia 20-35
+   ✅ CSS Grid 2 coloane pe ecran mediu - src/css/galerie.css linia 115-125
+   ✅ CSS Grid 1 coloană pe ecran mic - src/css/galerie.css linia 130-145
+   ✅ Eliminare filtrare pe timp pentru galerie statică - index.js linia 265-280
+   ✅ JSON cu 10 imagini pentru grid 3x4 cu goluri - src/json/galerie.json
+
+10. PROBLEME REZOLVATE
+    ✅ Eliminare limitare "6 imagini din 10" - views/fragmente/galerie.ejs
+    ✅ Grid 3x4 cu 10 imagini și 2 spații goale la rândul 2, coloanele 2-3
+    ✅ Limitare galerie statică la exact 10 imagini - views/pagini/galerie-statica.ejs linia 12
+
+URMĂTOARELE ETAPE - ETAPA 5:
+11. COMPILARE SCSS (ETAPA 5) - FINALIZATĂ
+    ✅ a. Funcția compileazaScss() cu căi absolute/relative - index.js linia 218-280
+    ✅ b. Require sass și configurare obGlobal - index.js linia 5, 53-57
+    ✅ c. Salvare backup în resurse/css cu tratarea erorilor - index.js linia 240-250
+    ✅ d. Compilare inițială la pornirea serverului - index.js linia 282-292
+    ✅ e. Monitorizare fs.watch() pentru compilare automată - index.js linia 294-306
+    ✅ Eliminare warninguri deprecation pentru color functions - src/scss/nav.scss linia 1
+
+12. GALERIE DINAMICĂ 
+    🔄 Pagina galerie-dinamica.ejs cu filtrare pe categorie
+    🔄 Implementare filtre JavaScript pentru sortare
+    🔄 Adăugare câmp "categorie" în galerie.json
+    🔄 Butoane de filtrare (Toate, Radio, Telefon, Camera, etc.)
+
+13. INTERACTIVITATE
+    🔄 Modal/lightbox pentru imagini mari
+    🔄 Animații CSS pentru hover pe imagini
+    🔄 Loading spinner pentru imagini
+
+14. OPTIMIZARE
+    🔄 Lazy loading pentru imagini
+    🔄 Compresie imagini pentru performanță
+    🔄 Cache pentru fișiere statice
+
+FIȘIERE PRINCIPALE:
+- index.js - Server Express principal
+- views/fragmente/ - Componente reutilizabile
+- views/pagini/ - Pagini complete
+- src/css/ - Stiluri CSS
+- src/json/erori.json - Configurație erori
+- src/video/ - Fișiere video și subtitrări
+

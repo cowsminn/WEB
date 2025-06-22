@@ -1,4 +1,15 @@
 <header>
+    <!-- Switch pentru tema în header - standardized -->
+    <div class="header-theme-switch">
+        <div class="form-check form-switch">
+            <input class="form-check-input theme-toggle" type="checkbox" role="switch" id="headerThemeSwitch">
+            <label class="form-check-label" for="headerThemeSwitch">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+    </div>
+    
     <h1>ElectroDelicii</h1>
     <div id="variante-meniu">
         <!-- Meniu principal pentru desktop -->
@@ -19,8 +30,12 @@
                 </li>
                 <li><a href="/produse">Produse</a>
                     <ul>
-                        <li><a href="/electronice">Electronice</a></li>
-                        <li><a href="/antichitati">Antichități</a></li>
+                        <li><a href="/produse">Toate</a></li>
+                        <% if (typeof categorii !== 'undefined' && categorii) { %>
+                            <% categorii.forEach(function(categorie) { %>
+                                <li><a href="/produse?categorie=<%= categorie %>"><%= categorie.charAt(0).toUpperCase() + categorie.slice(1) %></a></li>
+                            <% }); %>
+                        <% } %>
                     </ul>
                 </li>
                 <li><a href="/targuri">Târguri</a></li>
@@ -39,12 +54,16 @@
             <a href="/#welcome" class="submenu-item">Welcome</a>
             <a href="/#intrebari" class="submenu-item">Întrebări</a>
             <a href="/#videouri" class="submenu-item">Videouri</a>
-            <a href="/galerii">Galerii</a>
+            <a href="/galerii" class="has-submenu">Galerii</a>
             <a href="/galerie-statica" class="submenu-item">Galerie Statică</a>
             <a href="/galerie-dinamica" class="submenu-item">Galerie Dinamică</a>
-            <a href="/produse">Produse</a>
-            <a href="/electronice" class="submenu-item">Electronice</a>
-            <a href="/antichitati" class="submenu-item">Antichități</a>
+            <a href="/produse" class="has-submenu">Produse</a>
+            <a href="/produse" class="submenu-item">Toate</a>
+            <% if (typeof categorii !== 'undefined' && categorii) { %>
+                <% categorii.forEach(function(categorie) { %>
+                    <a href="/produse?categorie=<%= categorie %>" class="submenu-item"><%= categorie.charAt(0).toUpperCase() + categorie.slice(1) %></a>
+                <% }); %>
+            <% } %>
             <a href="/targuri">Târguri</a>
             <a href="/contact">Contact</a>
         </div>

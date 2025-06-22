@@ -1,0 +1,245 @@
+@use "sass:color";
+
+// CUSTOMIZARE BOOTSTRAP - ElectroDelicii
+// Schema cromatică personalizată și override pentru variabile Bootstrap
+
+// 1. CULORILE PRINCIPALE - Override variabile Bootstrap
+$primary: #F2305E;    // Roz-intens (culoarea principală)
+$secondary: #9D5465;  // Roz-maroniu
+$success: #CB4967;    // Roz-roșiatic pentru success
+$info: #742538;       // Vișiniu pentru info
+$warning: #F2305E;    // Folosim culoarea principală pentru warning
+$danger: #742538;     // Vișiniu pentru danger
+$light: #F5F0E6;      // Bej foarte deschis
+$dark: #33272A;       // Maro foarte închis
+
+// 2. CULORILE DE BACKGROUND pentru teme
+$body-bg: #F5F0E6;                    // Background principal
+$card-bg: #FFFFFF;                    // Background carduri
+$navbar-light-bg: $primary;          // Background navbar light
+$navbar-dark-bg: $dark;              // Background navbar dark
+$btn-bg-variants: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info
+);
+
+// 3. CULORI DE FONT
+$body-color: #33272A;                 // Culoarea principală text
+$headings-color: $primary;            // Culoarea headingurilor
+$link-color: $info;                   // Culoarea linkurilor
+$link-hover-color: $primary;          // Culoarea linkurilor la hover
+$btn-color: white;                    // Culoarea textului din butoane
+
+// 4. DIMENSIUNI DE ECRAN - customizate pentru medii și mari
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 900px,      // Modificat: ecran mediu la 900px în loc de 768px
+  lg: 1300px,     // Modificat: ecran mare la 1300px în loc de 992px
+  xl: 1600px,     // Modificat: ecran extra-large la 1600px în loc de 1200px
+  xxl: 1900px     // Modificat: ecran xxl la 1900px în loc de 1400px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 850px,      // Adaptat la noul breakpoint
+  lg: 1250px,     // Adaptat la noul breakpoint
+  xl: 1550px,     // Adaptat la noul breakpoint
+  xxl: 1850px     // Adaptat la noul breakpoint
+);
+
+// 5. DIMENSIUNEA RAZELOR DE BORDER
+$border-radius: 8px;                  // Modificat de la 0.375rem
+$border-radius-sm: 5px;               // Modificat de la 0.25rem
+$border-radius-lg: 12px;              // Modificat de la 0.5rem
+$border-radius-xl: 16px;              // Modificat de la 1rem
+$border-radius-pill: 50px;            // Modificat de la 50rem
+
+// 6. DIMENSIUNEA LITERELOR HEADINGURILOR
+$h1-font-size: 2.8rem;               // Modificat de la 2.5rem
+$h2-font-size: 2.2rem;               // Modificat de la 2rem
+$h3-font-size: 1.8rem;               // Modificat de la 1.75rem
+$h4-font-size: 1.5rem;               // Modificat de la 1.5rem
+$h5-font-size: 1.3rem;               // Modificat de la 1.25rem
+$h6-font-size: 1.1rem;               // Modificat de la 1rem
+
+// 7. FAMILIA DE FONT IMPLICITĂ
+$font-family-sans-serif: 'Georgia', 'Times New Roman', serif; // Modificat pentru a păstra consistența
+$font-family-base: $font-family-sans-serif;
+$headings-font-family: 'Georgia', serif;
+
+// 8. VARIABILA SUPLIMENTARĂ ALEASĂ - Spacing customizat
+$spacer: 1.2rem;                      // Modificat de la 1rem pentru spacing mai generos
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,    // 0.3rem
+  2: $spacer * 0.5,     // 0.6rem
+  3: $spacer,           // 1.2rem
+  4: $spacer * 1.5,     // 1.8rem
+  5: $spacer * 3,       // 3.6rem
+  6: $spacer * 4,       // 4.8rem
+  7: $spacer * 5        // 6rem
+);
+
+// NOTĂ: Bootstrap nu este instalat în proiect
+// Pentru a folosi Bootstrap, rulează: npm install bootstrap
+
+// CSS CORECTIV pentru a păstra designul original
+// Acestea sunt stiluri Bootstrap-like fără a importa Bootstrap
+
+// Simulare grid Bootstrap
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+[class*="col-"] {
+  padding: 0 15px;
+  flex: 1;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+// Simulare butoane Bootstrap-like cu culorile tale
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: none;
+  border-radius: $border-radius;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin: 5px;
+  
+  &.btn-primary {
+    background-color: $primary;
+    color: white;
+    
+    &:hover {
+      background-color: color.adjust($primary, $lightness: -10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  }
+  
+  &.btn-secondary {
+    background-color: $secondary;
+    color: white;
+    
+    &:hover {
+      background-color: color.adjust($secondary, $lightness: -10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+// Utility classes
+.text-primary {
+  color: $primary !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.my-4 {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+// Restaurează stilurile pentru navigația personalizată
+#variante-meniu {
+  // Resetează orice stil Bootstrap care ar putea afecta meniul custom
+  .navbar-brand,
+  .navbar-nav,
+  .nav-link {
+    all: unset;
+  }
+}
+
+// Păstrează stilurile pentru main și section
+main {
+  // Resetează container-ul Bootstrap dacă afectează layoutul
+  &.container,
+  &.container-fluid {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+}
+
+// Păstrează stilurile pentru footer
+footer {
+  background-color: #33272A !important;  // Forțează culoarea originală
+  color: white !important;
+}
+
+// Păstrează stilurile pentru header
+header {
+  background-color: #F2305E !important;  // Forțează culoarea principală
+  color: white !important;
+}
+
+// Restaurează stilurile pentru tabeluri dacă Bootstrap le afectează
+table:not(.table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  
+  th {
+    background-color: #9D5465;
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(157, 84, 101, 0.3);
+  }
+}
+
+// Păstrează stilurile pentru galerie
+.galerie-container {
+  // Resetează orice stil Bootstrap pentru galerie
+  display: grid !important;
+}
+
+// Asigură că variabilele CSS custom rămân intacte
+:root {
+  --culoare-1: #CB4967;
+  --culoare-1-rgb: 203, 73, 103;
+  --culoare-2: #9D5465;
+  --culoare-2-rgb: 157, 84, 101;
+  --culoare-principala: #F2305E;
+  --culoare-principala-rgb: 242, 48, 94;
+  --culoare-3: #742538;
+  --culoare-3-rgb: 116, 37, 56;
+  --culoare-4: #4B3F41;
+  --culoare-4-rgb: 75, 63, 65;
+  --culoare-5: #33272A;
+  --culoare-5-rgb: 51, 39, 42;
+  --culoare-background-light: #FFFFFF;
+  --culoare-background-light-rgb: 255, 255, 255;
+  --culoare-background-main: #F5F0E6;
+  --culoare-text: #33272A;
+}

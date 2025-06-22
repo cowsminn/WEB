@@ -1,11 +1,1 @@
-ETAPA 1
-- poze de pus 
-- docs?
-- chestia cu area 
-
-ETAPA 2 && ETAPA 3 
-- de verificat miscat, prea mult css scss
-- nav centrat, chestia cu home la nav mediu, animatie la burger
-
-ETAPA 4
-- video adaugat si pozitionat
+reviziuit etapa 5

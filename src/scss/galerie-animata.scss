@@ -1,0 +1,218 @@
+@use "sass:math";
+
+// Variabile pentru galeria animată
+$galerie-width: 600px;
+$galerie-height: 450px;
+$border-width: 25px;
+
+// Mixin pentru generarea keyframes cu poziții exacte
+@mixin galerie-keyframes($cols, $rows, $total) {
+  @keyframes galerie-#{$total} {
+    @for $i from 0 through ($total - 1) {
+      $percent: math.div($i * 100, $total);
+      
+      $col : $i % $cols;
+      $row : math.floor(math.div($i, $cols));
+      $tx  : -$col * $galerie-width;
+      $ty  : -$row * $galerie-height;
+
+      #{$percent}% {
+        transform: translate($tx, $ty);
+      }
+    }
+    
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+// Container principal pentru galeria animată
+.galerie-animata {
+  display: block;
+  width: $galerie-width;
+  height: $galerie-height;
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
+  border: $border-width solid transparent;
+  border-image-source: url('/src/img/frame-ornament.png');
+  border-image-slice: $border-width;
+  border-image-repeat: round;
+  border-radius: 20px;
+  box-shadow: 
+    0 0 0 5px #D2691E,
+    0 0 0 10px #CD853F,
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 15px rgba(139, 69, 19, 0.2);
+  background: linear-gradient(45deg, #F4A460, #DEB887);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -$border-width;
+    left: -$border-width;
+    right: -$border-width;
+    bottom: -$border-width;
+    background: linear-gradient(45deg, #8B4513, #D2691E, #CD853F, #8B4513);
+    border-radius: 25px;
+    z-index: -1;
+  }
+  
+  // Ascunde galeria pe ecrane medii și mici
+  @media (max-width: 1024px) {
+    display: none !important;
+  }
+  
+  // Oprește animația la hover
+  &:hover .galerie-grid {
+    animation-play-state: paused;
+    
+    .galerie-imagine {
+      animation-play-state: paused;
+    }
+  }
+}
+
+// Grid-ul care conține imaginile  
+.galerie-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  gap: 0;
+  animation-play-state: running;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+}
+
+// Stilizare imagini de bază
+.galerie-imagine {
+  width: $galerie-width;
+  height: $galerie-height;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transform-origin: center center;
+}
+
+// Configurații pentru diferite numere de imagini
+.galerie-grid {
+  &.imagini-9 {
+    grid-template-columns: repeat(3, $galerie-width);
+    grid-template-rows: repeat(3, $galerie-height);
+    animation-name: galerie-9;
+    animation-duration: 18s;
+    animation-timing-function: steps(9, end);
+    
+    .galerie-imagine {
+      @for $i from 1 through 9 {
+        &:nth-child(#{$i}) {
+          animation: rotatie-poza-#{$i}-9 18s infinite linear;
+        }
+      }
+    }
+  }
+  
+  &.imagini-12 {
+    grid-template-columns: repeat(4, $galerie-width);
+    grid-template-rows: repeat(3, $galerie-height);
+    animation-name: galerie-12;
+    animation-duration: 24s;
+    animation-timing-function: steps(12, end);
+    
+    .galerie-imagine {
+      @for $i from 1 through 12 {
+        &:nth-child(#{$i}) {
+          animation: rotatie-poza-#{$i}-12 24s infinite linear;
+        }
+      }
+    }
+  }
+  
+  &.imagini-15 {
+    grid-template-columns: repeat(5, $galerie-width);
+    grid-template-rows: repeat(3, $galerie-height);
+    animation-name: galerie-15;
+    animation-duration: 30s;
+    animation-timing-function: steps(15, end);
+    
+    .galerie-imagine {
+      @for $i from 1 through 15 {
+        &:nth-child(#{$i}) {
+          animation: rotatie-poza-#{$i}-15 30s infinite linear;
+        }
+      }
+    }
+  }
+}
+
+// Generarea keyframes pentru grid
+@include galerie-keyframes(3, 3, 9);
+@include galerie-keyframes(4, 3, 12);
+@include galerie-keyframes(5, 3, 15);
+
+// Titlu pentru galeria animată
+.galerie-animata-titlu {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--culoare-principala, #CB4967);
+}
+
+// Generez animații rotație pentru 9 imagini
+@for $i from 1 through 9 {
+  @keyframes rotatie-poza-#{$i}-9 {
+    $start: ($i - 1) * math.div(100, 9);
+    $mid-start: $start + 1;
+    $mid-end: $start + math.div(100, 9) - 1;
+    $end: $i * math.div(100, 9);
+    
+    0% { transform: rotate(0deg); }
+    #{$start}% { transform: rotate(0deg); }
+    #{$mid-start}% { transform: rotate(0deg); }
+    #{$mid-start + 1}% { transform: rotate(360deg); }
+    #{$mid-end}% { transform: rotate(360deg); }
+    #{$end}% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+}
+
+// Generez animații rotație pentru 12 imagini
+@for $i from 1 through 12 {
+  @keyframes rotatie-poza-#{$i}-12 {
+    $start: ($i - 1) * math.div(100, 12);
+    $mid-start: $start + 1;
+    $mid-end: $start + math.div(100, 12) - 1;
+    $end: $i * math.div(100, 12);
+    
+    0% { transform: rotate(0deg); }
+    #{$start}% { transform: rotate(0deg); }
+    #{$mid-start}% { transform: rotate(0deg); }
+    #{$mid-start + 1}% { transform: rotate(360deg); }
+    #{$mid-end}% { transform: rotate(360deg); }
+    #{$end}% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+}
+
+// Generez animații rotație pentru 15 imagini
+@for $i from 1 through 15 {
+  @keyframes rotatie-poza-#{$i}-15 {
+    $start: ($i - 1) * math.div(100, 15);
+    $mid-start: $start + 1;
+    $mid-end: $start + math.div(100, 15) - 1;
+    $end: $i * math.div(100, 15);
+    
+    0% { transform: rotate(0deg); }
+    #{$start}% { transform: rotate(0deg); }
+    #{$mid-start}% { transform: rotate(0deg); }
+    #{$mid-start + 1}% { transform: rotate(360deg); }
+    #{$mid-end}% { transform: rotate(360deg); }
+    #{$end}% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+}

@@ -1,0 +1,119 @@
+:root {
+  --bs-primary: #CB4967;
+  --bs-secondary: #F2305E;
+  --bs-primary-rgb: 203, 73, 103;
+  --bs-secondary-rgb: 242, 48, 94;
+  --bg-color: #ffffff;
+  --text-color: #212529;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --muted-color: #6c757d;
+  --success-color: #198754;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #0dcaf0;
+}
+
+[data-theme=dark] {
+  --bg-color: #212529;
+  --text-color: #f8f9fa;
+  --card-bg: #343a40;
+  --border-color: #495057;
+  --muted-color: #adb5bd;
+  --bs-primary: #e83e8c;
+  --bs-secondary: #fd7e14;
+  --bs-body-bg: var(--bg-color);
+  --bs-body-color: var(--text-color);
+  --bs-card-bg: var(--card-bg);
+  --bs-border-color: var(--border-color);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  transition: all 0.3s ease;
+}
+.card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+.card .card-body {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+.card .text-muted {
+  color: var(--muted-color) !important;
+}
+
+[data-theme=dark] .card {
+  box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075);
+}
+[data-theme=dark] .card:hover {
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+[data-theme=dark] .form-control, [data-theme=dark] .form-select {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+[data-theme=dark] .form-control:focus, [data-theme=dark] .form-select:focus {
+  background-color: var(--card-bg);
+  border-color: var(--bs-primary);
+  color: var(--text-color);
+}
+[data-theme=dark] .btn-outline-primary {
+  color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+[data-theme=dark] .btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@media (max-width: 576px) {
+  .btn-text {
+    display: none !important;
+  }
+  .btn {
+    min-width: 2.5rem;
+    padding: 0.5rem;
+  }
+}
+#toast-container {
+  z-index: 1055;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+}
+
+.list-unstyled li {
+  margin-bottom: 0.25rem;
+}
+.list-unstyled li strong {
+  color: #CB4967;
+}
+
+.alert {
+  border-radius: 1rem;
+  border-width: 2px;
+}

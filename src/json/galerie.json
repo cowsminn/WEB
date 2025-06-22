@@ -1,0 +1,156 @@
+{
+  "cale_galerie": "src/img",
+  "imagini": [
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Radio Vintage Grundig",
+      "descriere": "Radio vintage din anii '60, în stare perfectă de funcționare",
+      "timp": "08:00-14:00",
+      "alt": "Radio vintage Grundig din anii 1960",
+      "atribuire": "Imagine CC0 - Pixabay",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Cameră foto analogică",
+      "descriere": "Cameră foto vintage cu film de 35mm",
+      "timp": "10:00-16:00",
+      "alt": "Camera foto vintage analogica",
+      "atribuire": "Imagine CC0 - Pexels",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Mașină de scris Corona",
+      "descriere": "Mașină de scris portabilă din anii '50",
+      "timp": "07:00-13:00",
+      "alt": "Masina de scris Corona vintage",
+      "atribuire": "Imagine CC0 - Pixabay",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Gramofon cu trompetă",
+      "descriere": "Gramofon vechi cu trompetă și discuri de ebonită",
+      "timp": "10:00-17:00",
+      "alt": "Gramofon vintage cu trompta",
+      "atribuire": "Imagine CC0 - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Televizor în lampă",
+      "descriere": "Televizor alb-negru din anii '70 cu ecran convex",
+      "timp": "06:00-12:00",
+      "alt": "Televizor vintage in lampi",
+      "atribuire": "Imagine CC0 - Pexels",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Ceas de perete cu pendulă",
+      "descriere": "Ceas de perete din lemn cu pendulă și sonerie",
+      "timp": "10:00-18:00",
+      "alt": "Ceas de perete vintage cu pendula",
+      "atribuire": "Imagine CC0 - Pixabay",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Lanternă cu petrol",
+      "descriere": "Lanternă veche cu petrol și fitil ajustabil",
+      "timp": "10:00-19:00",
+      "alt": "Lanterna vintage cu petrol",
+      "atribuire": "Imagine CC0 - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Radio portabil transistor",
+      "descriere": "Radio portabil cu antena telescopică din anii '80",
+      "timp": "10:00-20:00",
+      "alt": "Radio portabil vintage transistor",
+      "atribuire": "Imagine CC0 - Pexels",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Calculator mecanic Facit",
+      "descriere": "Calculator mecanic pentru operații aritmetice",
+      "timp": "10:00-21:00",
+      "alt": "Calculator mecanic vintage Facit",
+      "atribuire": "Imagine CC0 - Pixabay",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Casetofon portabil",
+      "descriere": "Casetofon portabil cu radio AM/FM integrat",
+      "timp": "10:00-22:00",
+      "alt": "Casetofon portabil vintage",
+      "atribuire": "Imagen CC0 - Unsplash"
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Proiector diapozitive",
+      "descriere": "Proiector pentru diapozitive cu lentile de înaltă calitate",
+      "timp": "05:00-11:00",
+      "alt": "Proiector vintage pentru diapozitive",
+      "atribuire": "Imagine CC0 - Pexels"
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    },
+    {
+      "cale_imagine": "targ1.jpeg",
+      "titlu": "Telefon cu disc",
+      "descriere": "Telefon cu disc rotativ din epoca comunistă",
+      "timp": "09:00-15:00",
+      "alt": "Telefon cu disc rotativ vintage",
+      "atribuire": "Imagine CC-BY: Marcus Spiske - Unsplash",
+      "galerie-animata": true
+    }
+  ]
+}

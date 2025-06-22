@@ -1,0 +1,178 @@
+// Customizări Bootstrap pentru tema ElectroDelicii
+
+// Variabile de culoare personalizate
+$primary: #CB4967;
+$secondary: #F2305E;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+
+// Variabile pentru butoane
+$btn-border-radius: 1.25rem;
+$btn-border-width: 2px;
+$btn-font-weight: 600;
+$btn-padding-y: 0.75rem;
+$btn-padding-x: 1.5rem;
+
+// Variabile pentru inputuri
+$input-border-radius: 0.75rem;
+$input-border-width: 2px;
+$input-padding-y: 0.75rem;
+$input-padding-x: 1rem;
+$input-focus-border-color: $primary;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+
+// Variabile pentru range slider
+$form-range-thumb-width: 1.5rem; // 50% mai mare
+$form-range-thumb-height: 1.5rem;
+$form-range-thumb-bg: $primary;
+$form-range-thumb-border: 2px solid $secondary;
+$form-range-track-bg: #E8A4B8; // Versiune mai deschisă a lui $primary
+$form-range-track-height: 0.75rem;
+
+// Variabile pentru floating labels
+$form-floating-label-opacity: 0.75;
+$form-floating-label-transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+
+// Variabile pentru switch
+$form-switch-width: 3rem;
+$form-switch-padding-start: 3.5rem;
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$secondary}'/></svg>");
+
+// Customizări CSS pentru a suprascrie Bootstrap via CDN
+:root {
+  --bs-primary: #{$primary};
+  --bs-secondary: #{$secondary};
+  --bs-success: #{$success};
+  --bs-info: #{$info};
+  --bs-warning: #{$warning};
+  --bs-danger: #{$danger};
+  --bs-light: #{$light};
+  --bs-dark: #{$dark};
+  
+  // Range slider variables
+  --bs-form-range-thumb-width: #{$form-range-thumb-width};
+  --bs-form-range-thumb-height: #{$form-range-thumb-height};
+  --bs-form-range-thumb-bg: #{$form-range-thumb-bg};
+  --bs-form-range-track-bg: #{$form-range-track-bg};
+  --bs-form-range-track-height: #{$form-range-track-height};
+}
+
+// Customizări suplimentare
+.btn-outline-primary:hover {
+    background-color: $primary !important;
+    border-color: $primary !important;
+    color: white !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: $secondary !important;
+    border-color: $secondary !important;
+    color: white !important;
+}
+
+// Override pentru butoane cu customizările noastre
+.btn {
+    border-radius: $btn-border-radius !important;
+    border-width: $btn-border-width !important;
+    font-weight: $btn-font-weight !important;
+    padding: $btn-padding-y $btn-padding-x !important;
+}
+
+// Override pentru inputuri
+.form-control, .form-select {
+    border-radius: $input-border-radius !important;
+    border-width: $input-border-width !important;
+    padding: $input-padding-y $input-padding-x !important;
+    
+    &:focus {
+        border-color: $input-focus-border-color !important;
+        box-shadow: $input-focus-box-shadow !important;
+    }
+}
+
+// Range slider customizat
+.form-range {
+    height: $form-range-track-height;
+    
+    &::-webkit-slider-track {
+        background-color: $form-range-track-bg !important;
+        height: $form-range-track-height !important;
+        border-radius: calc(#{$form-range-track-height} / 2) !important;
+    }
+    
+    &::-webkit-slider-thumb {
+        width: $form-range-thumb-width !important;
+        height: $form-range-thumb-height !important;
+        background: $form-range-thumb-bg !important;
+        border: $form-range-thumb-border !important;
+        border-radius: 50% !important;
+    }
+    
+    &::-moz-range-track {
+        background-color: $form-range-track-bg !important;
+        height: $form-range-track-height !important;
+        border-radius: calc(#{$form-range-track-height} / 2) !important;
+    }
+    
+    &::-moz-range-thumb {
+        width: $form-range-thumb-width !important;
+        height: $form-range-thumb-height !important;
+        background: $form-range-thumb-bg !important;
+        border: $form-range-thumb-border !important;
+        border-radius: 50% !important;
+    }
+}
+
+// Switch pentru tema
+.theme-switch {
+    .form-check-input {
+        width: $form-switch-width !important;
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'><path d='M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z'/></svg>") !important;
+        
+        &:checked {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'><path d='M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>") !important;
+            background-color: $primary !important;
+        }
+    }
+}
+
+// Floating label invalid state
+.form-floating {
+    .form-control.is-invalid ~ label {
+        color: $danger !important;
+    }
+}
+
+// Toggle buttons în grup vertical
+.btn-group-vertical {
+    .btn {
+        border-radius: $btn-border-radius !important;
+        margin-bottom: 0.25rem;
+        
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+    }
+}
+
+// Responsive text for buttons
+@media (max-width: 576px) {
+    .btn-text {
+        display: none !important;
+    }
+    
+    .btn {
+        min-width: 2.5rem;
+        padding: 0.5rem !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .btn-icon-only {
+        display: none !important;
+    }
+}

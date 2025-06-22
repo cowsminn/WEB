@@ -1,0 +1,34 @@
+<!-- Fragment galerie statică reutilizabil -->
+<section class="galerie-container">
+    <h2>Galerie Electronică Vintage</h2>
+    <div class="galerie-info">
+        <small>(<%= galerie.imagini.length %> imagini afișate - grid 3x4 cu 2 spații goale)</small>
+    </div>
+    
+    <div class="galerie-grid">
+        <% galerie.imagini.forEach((imagine, index) => { %>
+            <figure class="galerie-item">
+                <picture>
+                    <!-- Pentru ecrane mici (max 768px) - imagini de 200px -->
+                    <source media="(max-width: 768px)" 
+                            srcset="<%= galerie.cale_galerie %>/small/<%= imagine.cale_imagine %>">
+                    <!-- Pentru ecrane medii (max 1024px) - imagini de 300px -->
+                    <source media="(max-width: 1024px)" 
+                            srcset="<%= galerie.cale_galerie %>/medium/<%= imagine.cale_imagine %>">
+                    <!-- Pentru ecrane mari - imaginea originală -->
+                    <img src="<%= galerie.cale_galerie %>/<%= imagine.cale_imagine %>" 
+                         alt="<%= imagine.alt || imagine.cale_imagine %>"
+                         title="<%= imagine.descriere %>"
+                         loading="lazy">
+                </picture>
+                
+                <figcaption>
+                    <strong><%= imagine.titlu %></strong>
+                    <br><%= imagine.descriere %>
+                    <time><%= imagine.timp %></time>
+                    <small class="atribuire"><%= imagine.atribuire %></small>
+                </figcaption>
+            </figure>
+        <% }); %>
+    </div>
+</section>

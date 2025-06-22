@@ -1,0 +1,210 @@
+/* Stiluri pentru galeria statică */
+
+/* Counter pentru indexarea imaginilor cu litere mici */
+.galerie-grid {
+    counter-reset: galerie-counter;
+}
+
+/* Container principal galerie */
+.galerie-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.galerie-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--culoare-principala);
+}
+
+.galerie-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--culoare-3);
+}
+
+/* Grid layout pentru galerie */
+.galerie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 coloane pe ecran mare */
+    grid-template-rows: repeat(3, 1fr); /* 3 rânduri */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Poziționarea specifică pentru fiecare imagine pe ecran mare - 3 rânduri x 4 coloane cu 2 goluri */
+.galerie-item:nth-child(1) { grid-area: 1 / 1; }
+.galerie-item:nth-child(2) { grid-area: 1 / 2; }
+.galerie-item:nth-child(3) { grid-area: 1 / 3; }
+.galerie-item:nth-child(4) { grid-area: 1 / 4; }
+.galerie-item:nth-child(5) { grid-area: 2 / 1; }
+/* Pozițiile 2/2 și 2/3 rămân goale */
+.galerie-item:nth-child(6) { grid-area: 2 / 4; }
+.galerie-item:nth-child(7) { grid-area: 3 / 1; }
+.galerie-item:nth-child(8) { grid-area: 3 / 2; }
+.galerie-item:nth-child(9) { grid-area: 3 / 3; }
+.galerie-item:nth-child(10) { grid-area: 3 / 4; }
+
+/* Fiecare element din galerie */
+.galerie-item {
+    position: relative;
+    margin: 0;
+    border: 2px solid var(--culoare-2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+    counter-increment: galerie-counter;
+}
+
+/* Picture element responsive */
+.galerie-item picture {
+    display: block;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.galerie-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Figcaption cu indexul */
+.galerie-item figcaption {
+    padding: 15px;
+}
+
+/* Indexul cu litere mici înaintea textului */
+.galerie-item figcaption::before {
+    content: counter(galerie-counter, lower-alpha) ". ";
+    font-weight: bold;
+    color: var(--culoare-principala);
+}
+
+/* Efect hover - imaginea se mărește cu 30% și se translatează în sus */
+.galerie-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.galerie-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Hover pentru figcaption - schimbă background și culoarea textului */
+.galerie-item:hover figcaption {
+    background-color: var(--culoare-principala);
+    color: white;
+}
+
+/* Atribuirea de autor */
+.atribuire {
+    font-size: 0.75rem;
+    color: var(--culoare-2);
+    font-style: italic;
+    margin-top: 5px;
+    display: block;
+}
+
+.galerie-item:hover .atribuire {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Media query pentru ecran mediu (tableta) - 2 coloane */
+@media (max-width: 1024px) {
+    .galerie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+    
+    /* Resetăm poziționarea pentru ecran mediu */
+    .galerie-item:nth-child(n) {
+        grid-area: auto;
+    }
+    
+    .galerie-item picture {
+        height: 180px;
+    }
+}
+
+/* Media query pentru ecran mic (mobil) - 1 coloană */
+@media (max-width: 768px) {
+    .galerie-container {
+        padding: 15px;
+    }
+    
+    .galerie-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 20px;
+    }
+    
+    /* Resetăm poziționarea pentru ecran mic */
+    .galerie-item:nth-child(n) {
+        grid-area: auto;
+    }
+    
+    .galerie-item picture {
+        height: 250px;
+    }
+    
+    .galerie-item figcaption {
+        padding: 12px;
+    }
+}
+
+/* Media query pentru ecran foarte mic */
+@media (max-width: 480px) {
+    .galerie-container {
+        padding: 10px;
+    }
+    
+    .galerie-grid {
+        gap: 15px;
+    }
+    
+    .galerie-item picture {
+        height: 200px;
+    }
+}
+
+/* Animații pentru încărcarea galeriei */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.galerie-item {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.galerie-item:nth-child(1) { animation-delay: 0.1s; }
+.galerie-item:nth-child(2) { animation-delay: 0.2s; }
+.galerie-item:nth-child(3) { animation-delay: 0.3s; }
+.galerie-item:nth-child(4) { animation-delay: 0.4s; }
+.galerie-item:nth-child(5) { animation-delay: 0.5s; }
+.galerie-item:nth-child(6) { animation-delay: 0.6s; }
+.galerie-item:nth-child(7) { animation-delay: 0.7s; }
+.galerie-item:nth-child(8) { animation-delay: 0.8s; }
+.galerie-item:nth-child(9) { animation-delay: 0.9s; }
+.galerie-item:nth-child(10) { animation-delay: 1s; }
+.galerie-item:nth-child(11) { animation-delay: 1.1s; }
+.galerie-item:nth-child(12) { animation-delay: 1.2s; }
+
+/* Mesaj când nu sunt imagini disponibile */
+.galerie-gol {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--culoare-3);
+    font-style: italic;
+}

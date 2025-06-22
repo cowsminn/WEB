@@ -1,0 +1,130 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+[class*=col-] {
+  padding: 0 15px;
+  flex: 1;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+.btn.btn-primary {
+  background-color: #F2305E;
+  color: white;
+}
+.btn.btn-primary:hover {
+  background-color: rgb(224.8772727273, 14.1227272727, 64.0954545455);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.btn.btn-secondary {
+  background-color: #9D5465;
+  color: white;
+}
+.btn.btn-secondary:hover {
+  background-color: rgb(123.77593361, 66.22406639, 79.6265560166);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.text-primary {
+  color: #F2305E !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.my-4 {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+#variante-meniu .navbar-brand,
+#variante-meniu .navbar-nav,
+#variante-meniu .nav-link {
+  all: unset;
+}
+
+main.container, main.container-fluid {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+footer {
+  background-color: #33272A !important;
+  color: white !important;
+}
+
+header {
+  background-color: #F2305E !important;
+  color: white !important;
+}
+
+table:not(.table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+table:not(.table) th {
+  background-color: #9D5465;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+table:not(.table) td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(157, 84, 101, 0.3);
+}
+
+.galerie-container {
+  display: grid !important;
+}
+
+:root {
+  --culoare-1: #CB4967;
+  --culoare-1-rgb: 203, 73, 103;
+  --culoare-2: #9D5465;
+  --culoare-2-rgb: 157, 84, 101;
+  --culoare-principala: #F2305E;
+  --culoare-principala-rgb: 242, 48, 94;
+  --culoare-3: #742538;
+  --culoare-3-rgb: 116, 37, 56;
+  --culoare-4: #4B3F41;
+  --culoare-4-rgb: 75, 63, 65;
+  --culoare-5: #33272A;
+  --culoare-5-rgb: 51, 39, 42;
+  --culoare-background-light: #FFFFFF;
+  --culoare-background-light-rgb: 255, 255, 255;
+  --culoare-background-main: #F5F0E6;
+  --culoare-text: #33272A;
+}

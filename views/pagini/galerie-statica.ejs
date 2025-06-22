@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include('../fragmente/head', { titlu: 'Galerie Statică - ElectroDelicii' }) %>
+    <meta name="description" content="Galerie cu produse electronice vintage din targurile din Bucuresti">
+    <meta name="keywords" content="galerie, electronice vintage, antichitati, targuri Bucuresti">
+</head>
+<body>
+    <%- include('../fragmente/header') %>
+    
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-primary mb-4">Galerie Statică</h1>
+                <button class="btn btn-primary me-2">Test Primary</button>
+                <button class="btn btn-secondary">Test Secondary</button>
+            </div>
+        </div>
+        <%- include('../fragmente/galerie', { galerie: { ...galerie, imagini: galerie.imagini.slice(0, 10) } }) %>
+    </main>
+    
+    <%- include('../fragmente/footer') %>
+    
+    <!-- Script pentru meniul burger -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('#variante-meniu .menu-toggle');
+        const menuSecundar = document.querySelector('#variante-meniu .menu-secundar');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                menuSecundar.classList.toggle('active');
+            });
+        }
+        
+        // Funcție pentru controlul sub-meniului pe mobil
+        const menuItems = document.querySelectorAll('.menu-secundar a.has-submenu');
+        
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toggle clasa pentru indicator
+                this.classList.toggle('submenu-open');
+                
+                // Găsește următoarele elemente submenu
+                let nextElement = this.nextElementSibling;
+                const submenuItems = [];
+                
+                while (nextElement && nextElement.classList.contains('submenu-item')) {
+                    submenuItems.push(nextElement);
+                    nextElement = nextElement.nextElementSibling;
+                }
+                
+                // Toggle vizibilitatea submenu-ului
+                submenuItems.forEach(function(submenuItem, index) {
+                    if (submenuItem.classList.contains('show')) {
+                        submenuItem.classList.remove('show');
+                    } else {
+                        // Adaugă delay pentru animație
+                        setTimeout(function() {
+                            submenuItem.classList.add('show');
+                        }, index * 100);
+                    }
+                });
+            });
+        });
+        
+        // Închide meniul la redimensionare
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 700) {
+                if (menuToggle) menuToggle.classList.remove('active');
+                if (menuSecundar) menuSecundar.classList.remove('active');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
