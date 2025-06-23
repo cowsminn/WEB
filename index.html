@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./src/css/layout.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/nav.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/link.css" type="text/css"/>
+    <link rel="stylesheet" href="./src/css/orar-modal.css" type="text/css"/>
     <link rel="stylesheet" href="./src/css/print.css" type="text/css" media="print"/>
     <!-- Adăugă Font Awesome pentru iconițele din meniu pe tableta -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,6 +31,14 @@
 
 <body>
     <header>
+        <!-- Buton pentru afișarea orarului în header -->
+        <div class="header-orar-btn">
+            <button class="btn-orar" data-action="show-orar">
+                <i class="fas fa-clock"></i>
+                Program
+            </button>
+        </div>
+        
         <!-- Switch pentru tema în header -->
         <div class="header-theme-switch">
             <div class="form-check form-switch">
@@ -119,6 +128,13 @@
             <!-- Zona 2: Tabel -->
             <section class="tabel-container">
                 <h2>Programul târgurilor</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <p>Consultați programul nostru de lucru:</p>
+                    <button class="btn-orar" data-action="show-orar">
+                        <i class="fas fa-clock"></i>
+                        Vezi Orarul Complet
+                    </button>
+                </div>
                 <div class="tabel-scroll">
                     <table class="tabel-program">
                         <caption>Informații despre programul și locațiile târgurilor din București</caption>
@@ -295,6 +311,12 @@
             </div>
         </section>
     </main>
+    
+    <!-- Include fragmentul cu orarul -->
+    <div id="orar-fragment">
+        <%- include('fragmente/orar') %>
+    </div>
+    
     <footer>
         <a href="#" id="link-top">
             <div id="arrow">
@@ -432,6 +454,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
     
+    <!-- Script pentru orar modal -->
+    <script src="./src/js/orar-modal.js"></script>
     <!-- Add global theme script -->
     <script src="./src/js/theme-global.js"></script>
 </body>

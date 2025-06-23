@@ -1,0 +1,103 @@
+/* Styling for cheapest product markers */
+.cheapest-product {
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6) !important;
+    border: 3px solid #FFD700 !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.cheapest-product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8) !important;
+}
+
+.cheapest-badge {
+    position: absolute;
+    top: -15px;
+    left: -15px; /* Moved to left corner */
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #8B4513;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transform: rotate(0deg); /* Made straight */
+    z-index: 100;
+    animation: pulse-cheapest 2s infinite;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    white-space: nowrap;
+}
+
+.cheapest-badge i {
+    margin-right: 4px;
+    color: #8B4513;
+}
+
+@keyframes pulse-cheapest {
+    0% {
+        transform: rotate(0deg) scale(1); /* Made straight */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    50% {
+        transform: rotate(0deg) scale(1.1); /* Made straight */
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    }
+    100% {
+        transform: rotate(0deg) scale(1); /* Made straight */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+}
+
+/* Make sure the badge is visible on hover and doesn't interfere with product actions */
+.produs-card:hover .cheapest-badge {
+    z-index: 1000;
+}
+
+.product-actions {
+    z-index: 90;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .cheapest-product {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8) !important;
+}
+
+[data-theme="dark"] .cheapest-badge {
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    color: #2c3e50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cheapest-badge {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        top: -12px;
+        left: -12px; /* Adjusted for left positioning */
+    }
+    
+    .cheapest-product {
+        transform: scale(1.01);
+    }
+    
+    .cheapest-product:hover {
+        transform: scale(1.03);
+    }
+}
+
+@media (max-width: 480px) {
+    .cheapest-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        border-radius: 15px;
+        white-space: normal;
+        max-width: 120px;
+        text-align: center;
+        line-height: 1.2;
+        top: -10px;
+        left: -10px; /* Adjusted for smaller screens */
+    }
+}

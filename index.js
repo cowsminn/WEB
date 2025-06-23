@@ -8,7 +8,6 @@ const port = 8000;
 
 // Import configurația bazei de date
 const AccesBD = require('./module_proprii/accesbd');
-
 // Setează EJS ca motor de template
 app.set('view engine', 'ejs');
 
@@ -419,6 +418,10 @@ function getCuloareHex(culoare) {
     return culoriMap[culoare] || '#808080';
 }
 
+// Middleware pentru parsarea formularelor
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Rută pentru produse - cu filtrare pe categorii
 app.get('/produse', async (req, res) => {
     try {
@@ -426,9 +429,13 @@ app.get('/produse', async (req, res) => {
         let produse;
         let categoriaSelectata = null;
         
-        // Încărcă categoriile pentru meniu
+        // Încărcă categoriile pentru meniu și atributele dinamice
         const categorii = await getCategories();
         const culori = await getColors();
+        
+        // Încarcă atributele dinamice din noul fișier database/config.js
+        const db = require('./database/config');
+        const attributes = await db.getDynamicAttributes();
         
         if (categoria && categorii.includes(categoria)) {
             produse = await getProductsByCategory(categoria);
@@ -442,7 +449,8 @@ app.get('/produse', async (req, res) => {
             produse: produse,
             categorii: categorii,
             culori: culori,
-            categoriaSelectata: categoriaSelectata
+            categoriaSelectata: categoriaSelectata,
+            attributes: attributes // Adaugă atributele dinamice
         });
     } catch (error) {
         console.log('Eroare la încărcarea produselor:', error.message);
@@ -470,10 +478,20 @@ app.get('/produs/:id', async (req, res) => {
         // Încărcă categoriile pentru meniu
         const categorii = await getCategories();
         
+        // Încărcă produsele similare
+        const db = require('./database/config');
+        const produseSimilare = await db.getSimilarProducts(
+            productId, 
+            produs.categorie_mare, 
+            parseFloat(produs.pret), 
+            4
+        );
+        
         res.render('pagini/produs', { 
             ip: req.ip,
             produs: produs,
             categorii: categorii,
+            produseSimilare: produseSimilare,
             getCuloareHex: getCuloareHex
         });
     } catch (error) {
@@ -616,6 +634,208 @@ app.get(/^\/src\/[^.]*[^\/]$/, (req, res, next) => {
 // Directorul static /src
 app.use('/src', express.static(path.join(__dirname, 'src')));
 
+// Directorul static pentru resurse (JSON files, etc.)
+app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
+
+// API endpoint pentru oferte - UPDATED PATH
+app.get('/api/oferte', async (req, res) => {
+    try {
+        const offers = await loadCurrentOffers();
+        res.json(offers);
+    } catch (error) {
+        console.error('Eroare la API oferte:', error);
+        res.status(500).json({ error: 'Nu s-au putut încărca ofertele' });
+    }
+});
+
+// Funcție pentru încărcarea ofertelor curente - UPDATED
+async function loadCurrentOffers() {
+    try {
+        // Updated to use the correct path
+        const offerJsonPath = path.join(__dirname, 'src', 'json', 'oferte.json');
+        
+        if (!fs.existsSync(offerJsonPath)) {
+            console.log('Fișierul oferte.json nu există, se creează unul implicit');
+            const defaultOffers = {
+                oferte: [
+                    {
+                        categorie: "electronice",
+                        "data-incepere": new Date().toISOString(),
+                        "data-finalizare": new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                        reducere: 20
+                    }
+                ]
+            };
+            
+            fs.writeFileSync(offerJsonPath, JSON.stringify(defaultOffers, null, 2));
+        }
+        
+        const offerData = fs.readFileSync(offerJsonPath, 'utf8');
+        return JSON.parse(offerData);
+    } catch (error) {
+        console.error('Eroare la încărcarea ofertelor:', error);
+        return { oferte: [] };
+    }
+}
+
+// Funcție pentru construirea query-ului de filtrare
+function buildFilterQuery(filters) {
+    let conditions = [];
+    let params = [];
+    let paramIndex = 1;
+
+    if (filters.nume) {
+        conditions.push(`LOWER(nume) LIKE $${paramIndex}`);
+        params.push(`%${filters.nume.toLowerCase()}%`);
+        paramIndex++;
+    }
+
+    if (filters.descriere) {
+        conditions.push(`LOWER(descriere) LIKE $${paramIndex}`);
+        params.push(`%${filters.descriere.toLowerCase()}%`);
+        paramIndex++;
+    }
+
+    if (filters.pretMin && !isNaN(parseFloat(filters.pretMin))) {
+        conditions.push(`pret >= $${paramIndex}`);
+        params.push(parseFloat(filters.pretMin));
+        paramIndex++;
+    }
+
+    if (filters.pretMax && !isNaN(parseFloat(filters.pretMax))) {
+        conditions.push(`pret <= $${paramIndex}`);
+        params.push(parseFloat(filters.pretMax));
+        paramIndex++;
+    }
+
+    if (filters.categorie) {
+        conditions.push(`categorie_mare = $${paramIndex}`);
+        params.push(filters.categorie);
+        paramIndex++;
+    }
+
+    if (filters.culoare) {
+        conditions.push(`culoare = $${paramIndex}`);
+        params.push(filters.culoare);
+        paramIndex++;
+    }
+
+    if (filters.garantie !== '' && filters.garantie !== undefined) {
+        conditions.push(`garantie = $${paramIndex}`);
+        params.push(filters.garantie === 'true');
+        paramIndex++;
+    }
+
+    return { conditions, params };
+}
+
+// Funcție pentru construirea clauzei ORDER BY
+function buildSortClause(sortKey1, sortOrder1, sortKey2, sortOrder2) {
+    let orderClause = '';
+    
+    if (sortKey1) {
+        orderClause = `ORDER BY ${sortKey1} ${sortOrder1 || 'ASC'}`;
+        
+        if (sortKey2 && sortKey2 !== sortKey1) {
+            orderClause += `, ${sortKey2} ${sortOrder2 || 'ASC'}`;
+        }
+    } else {
+        orderClause = 'ORDER BY id ASC';
+    }
+    
+    return orderClause;
+}
+
+// Rută pentru filtrare server-side cu formular
+app.post('/produse/filter', async (req, res) => {
+    try {
+        console.log('Filtrare server-side:', req.body);
+        
+        const filters = req.body;
+        const { conditions, params } = buildFilterQuery(filters);
+        const sortClause = buildSortClause(filters.sortKey1, filters.sortOrder1, filters.sortKey2, filters.sortOrder2);
+        
+        let query = `
+            SELECT id, nume, descriere, imagine, categorie_mare, tip_prezentare, 
+                   pret, dimensiune, data_introducere, culoare, 
+                   caracteristici_speciale, garantie, created_at, updated_at
+            FROM produse
+        `;
+        
+        if (conditions.length > 0) {
+            query += ` WHERE ${conditions.join(' AND ')}`;
+        }
+        
+        query += ` ${sortClause}`;
+        
+        console.log('Query executat:', query);
+        console.log('Parametri:', params);
+        
+        const result = await bd.query(query, params);
+        const produse = result.rows;
+        
+        // Încarcă atributele dinamice și categoriile
+        const db = require('./database/config');
+        const attributes = await db.getDynamicAttributes();
+        const categorii = await getCategories();
+        
+        res.render('pagini/produse', {
+            ip: req.ip,
+            produse: produse,
+            categorii: categorii,
+            attributes: attributes,
+            categoriaSelectata: filters.categorie || null,
+            serverFiltered: true,
+            appliedFilters: filters
+        });
+        
+    } catch (error) {
+        console.error('Eroare la filtrare server-side:', error);
+        afisareEroare(res, 500, 'Eroare la filtrare', 'Nu s-au putut filtra produsele pe server.');
+    }
+});
+
+// Rută pentru filtrare server-side cu fetch (API)
+app.post('/api/produse/filter', async (req, res) => {
+    try {
+        console.log('API filtrare server-side:', req.body);
+        
+        const filters = req.body;
+        const { conditions, params } = buildFilterQuery(filters);
+        const sortClause = buildSortClause(filters.sortKey1, filters.sortOrder1, filters.sortKey2, filters.sortOrder2);
+        
+        let query = `
+            SELECT id, nume, descriere, imagine, categorie_mare, tip_prezentare, 
+                   pret, dimensiune, data_introducere, culoare, 
+                   caracteristici_speciale, garantie, created_at, updated_at
+            FROM produse
+        `;
+        
+        if (conditions.length > 0) {
+            query += ` WHERE ${conditions.join(' AND ')}`;
+        }
+        
+        query += ` ${sortClause}`;
+        
+        const result = await bd.query(query, params);
+        const produse = result.rows;
+        
+        res.json({
+            success: true,
+            produse: produse,
+            totalCount: produse.length,
+            appliedFilters: filters
+        });
+        
+    } catch (error) {
+        console.error('Eroare la API filtrare:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Nu s-au putut filtra produsele pe server.'
+        });
+    }
+});
+
 // Rută catch-all pentru pagini dinamice (actualizată)
 app.get(/^\/[^.]*$/, async function(req, res){
     try {
@@ -638,7 +858,8 @@ app.get(/^\/[^.]*$/, async function(req, res){
         
         res.render("pagini" + req.url, { 
             galerie: galerie,
-            categorii: categorii
+            categorii: categorii,
+            ip: req.ip
         }, function(eroare, rezultatRandare){
             if (eroare) {
                 if (eroare.message.startsWith("Failed to lookup view")) {

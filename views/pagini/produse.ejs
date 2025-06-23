@@ -7,7 +7,87 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/src/css/produse.css" type="text/css"/>
+    <link rel="stylesheet" href="/src/css/cheapest-product.css" type="text/css"/>
+    <link rel="stylesheet" href="/src/css/comparare-produse.css" type="text/css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Stiluri pentru butoanele de acțiune și starea produselor */
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        .product-actions .btn {
+            margin-left: 2px;
+        }
+        
+        .produs-card.pinned {
+            border: 2px solid #ffc107;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        }
+        
+        .produs-card.hidden-temp {
+            opacity: 0.5;
+            filter: grayscale(50%);
+        }
+        
+        .produs-item {
+            position: relative;
+        }
+        
+        #no-products-message {
+            margin-top: 2rem;
+        }
+        
+        /* Stiluri pentru modal produs */
+        .product-modal .modal-content {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-modal .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+        }
+        
+        .product-modal .modal-body {
+            padding: 2rem;
+        }
+        
+        .product-modal .modal-footer {
+            background-color: #f8f9fa;
+            border-radius: 0 0 15px 15px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .product-modal .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        
+        .product-modal .product-image {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-modal .badge {
+            font-size: 0.9rem;
+        }
+        
+        .produs-card {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .produs-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <%- include('../fragmente/header') %>
@@ -15,11 +95,42 @@
     <main class="container-fluid">
         <!-- Header secțiune produse -->
         <section id="produse-header" class="text-center py-4 mb-4">
+            <!-- Secțiunea de oferte -->
+            <div id="oferte-container" class="alert alert-info mb-4" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="oferta-content">
+                        <h5 class="mb-1"><i class="fas fa-percentage"></i> Ofertă specială!</h5>
+                        <p id="oferta-text" class="mb-0">Se încarcă oferta...</p>
+                    </div>
+                    <div class="timer-container text-end">
+                        <div id="timer" class="fw-bold fs-5 text-danger"></div>
+                        <small class="text-muted">Timp rămas</small>
+                    </div>
+                </div>
+            </div>
+            
             <h1 class="display-4">Produse ElectroDelicii</h1>
             <% if (categoriaSelectata) { %>
                 <p class="lead">Categoria: <strong><%= categoriaSelectata.charAt(0).toUpperCase() + categoriaSelectata.slice(1) %></strong></p>
             <% } else { %>
                 <p class="lead">Toate produsele din colecția noastră</p>
+            <% } %>
+            
+            <!-- Debug info pentru a vedea atributele dinamice -->
+            <% if (typeof attributes !== 'undefined') { %>
+                <div class="alert alert-info mt-3">
+                    <h6>✅ Atribute dinamice încărcate:</h6>
+                    <small>
+                        Preț: <%= attributes.priceRange.min %> - <%= attributes.priceRange.max %> RON<br>
+                        Categorii: <%= attributes.categories.length %> found<br>
+                        Culori: <%= attributes.colors.length %> found<br>
+                        Maxlength nume: <%= attributes.nameLengthRange.max %>
+                    </small>
+                </div>
+            <% } else { %>
+                <div class="alert alert-warning mt-3">
+                    <small>❌ Atributele dinamice nu sunt disponibile</small>
+                </div>
             <% } %>
         </section>
 
@@ -35,7 +146,12 @@
                     <!-- Filtru text pentru nume produs (floating label) -->
                     <div class="col-md-6 col-lg-4">
                         <div class="form-floating">
-                            <textarea class="form-control" id="filtru-nume" placeholder="Introduceți numele produsului..." style="height: 100px"></textarea>
+                            <textarea class="form-control" id="filtru-nume" 
+                                      placeholder="Introduceți numele produsului..." 
+                                      style="height: 100px"
+                                      <% if (typeof attributes !== 'undefined' && attributes.nameLengthRange) { %>
+                                          maxlength="<%= attributes.nameLengthRange.max %>"
+                                      <% } %>></textarea>
                             <label for="filtru-nume">
                                 <i class="bi bi-search"></i> Caută după nume
                             </label>
@@ -47,7 +163,8 @@
                         <label for="filtru-descriere" class="form-label">
                             <i class="bi bi-file-text"></i> Cuvânt cheie în descriere
                         </label>
-                        <input type="text" class="form-control" id="filtru-descriere" placeholder="Căutați în descriere...">
+                        <input type="text" class="form-control" id="filtru-descriere" 
+                               placeholder="Căutați în descriere..." maxlength="100">
                     </div>
 
                     <!-- Filtru range pentru preț -->
@@ -56,9 +173,20 @@
                             <i class="bi bi-currency-exchange"></i> Preț maxim (RON)
                         </label>
                         <div class="d-flex align-items-center">
-                            <span class="me-2 text-muted">0</span>
-                            <input type="range" class="form-range flex-grow-1" id="filtru-pret" min="0" max="4000" value="4000" step="50">
-                            <span class="ms-2 fw-bold">4000 (<span id="pret-selectat">4000</span>)</span>
+                            <% if (typeof attributes !== 'undefined' && attributes.priceRange) { %>
+                                <span class="me-2 text-muted"><%= attributes.priceRange.min %></span>
+                                <input type="range" class="form-range flex-grow-1" id="filtru-pret" 
+                                       min="<%= attributes.priceRange.min %>" 
+                                       max="<%= attributes.priceRange.max %>" 
+                                       value="<%= attributes.priceRange.max %>" 
+                                       step="50">
+                                <span class="ms-2 fw-bold"><%= attributes.priceRange.max %> (<span id="pret-selectat"><%= attributes.priceRange.max %></span>)</span>
+                            <% } else { %>
+                                <span class="me-2 text-muted">0</span>
+                                <input type="range" class="form-range flex-grow-1" id="filtru-pret" 
+                                       min="0" max="4000" value="4000" step="50">
+                                <span class="ms-2 fw-bold">4000 (<span id="pret-selectat">4000</span>)</span>
+                            <% } %>
                         </div>
                     </div>
 
@@ -87,7 +215,12 @@
                             <input type="radio" class="btn-check" name="culoare" id="culoare-toate" value="" checked>
                             <label class="btn btn-outline-primary" for="culoare-toate">Toate culorile</label>
                             
-                            <% if (typeof culori !== 'undefined' && culori) { %>
+                            <% if (typeof attributes !== 'undefined' && attributes.colors) { %>
+                                <% attributes.colors.forEach(function(culoare) { %>
+                                    <input type="radio" class="btn-check" name="culoare" id="culoare-<%= culoare %>" value="<%= culoare %>">
+                                    <label class="btn btn-outline-primary" for="culoare-<%= culoare %>"><%= culoare.charAt(0).toUpperCase() + culoare.slice(1) %></label>
+                                <% }); %>
+                            <% } else if (typeof culori !== 'undefined' && culori) { %>
                                 <% culori.forEach(function(culoare) { %>
                                     <input type="radio" class="btn-check" name="culoare" id="culoare-<%= culoare %>" value="<%= culoare %>">
                                     <label class="btn btn-outline-primary" for="culoare-<%= culoare %>"><%= culoare.charAt(0).toUpperCase() + culoare.slice(1) %></label>
@@ -104,7 +237,11 @@
                         <div class="btn-group-vertical w-100" role="group">
                             <input type="checkbox" class="btn-check" id="filtru-noutati">
                             <label class="btn btn-outline-secondary" for="filtru-noutati">
-                                <i class="bi bi-clock"></i> Noutăți (după 1 martie 2024)
+                                <% if (typeof attributes !== 'undefined' && attributes.dateRange) { %>
+                                    <i class="bi bi-clock"></i> Noutăți (după <%= new Date(attributes.dateRange.max).toLocaleDateString('ro-RO') %>)
+                                <% } else { %>
+                                    <i class="bi bi-clock"></i> Noutăți (după 1 martie 2024)
+                                <% } %>
                             </label>
                             
                             <input type="checkbox" class="btn-check" id="filtru-garantie">
@@ -121,7 +258,13 @@
                         </label>
                         <select class="form-select" id="filtru-categorie">
                             <option value="">Toate categoriile</option>
-                            <% if (typeof categorii !== 'undefined' && categorii) { %>
+                            <% if (typeof attributes !== 'undefined' && attributes.categories) { %>
+                                <% attributes.categories.forEach(function(categorie) { %>
+                                    <option value="<%= categorie %>" <%= categoriaSelectata === categorie ? 'selected' : '' %>>
+                                        <%= categorie.charAt(0).toUpperCase() + categorie.slice(1) %>
+                                    </option>
+                                <% }); %>
+                            <% } else if (typeof categorii !== 'undefined' && categorii) { %>
                                 <% categorii.forEach(function(categorie) { %>
                                     <option value="<%= categorie %>" <%= categoriaSelectata === categorie ? 'selected' : '' %>>
                                         <%= categorie.charAt(0).toUpperCase() + categorie.slice(1) %>
@@ -137,13 +280,19 @@
                             <i class="bi bi-gear"></i> Caracteristici speciale
                         </label>
                         <select class="form-select" id="filtru-caracteristici" multiple size="4">
-                            <option value="vintage">Vintage</option>
-                            <option value="design_retro">Design retro</option>
-                            <option value="lampi">Cu lămpi</option>
-                            <option value="functie_completa">Funcție completă</option>
-                            <option value="certificat">Cu certificat</option>
-                            <option value="manual_original">Manual original</option>
-                            <option value="stare_perfecta">Stare perfectă</option>
+                            <% if (typeof attributes !== 'undefined' && attributes.characteristics) { %>
+                                <% attributes.characteristics.forEach(function(caracteristica) { %>
+                                    <option value="<%= caracteristica %>"><%= caracteristica.charAt(0).toUpperCase() + caracteristica.slice(1) %></option>
+                                <% }); %>
+                            <% } else { %>
+                                <option value="vintage">Vintage</option>
+                                <option value="design_retro">Design retro</option>
+                                <option value="lampi">Cu lămpi</option>
+                                <option value="functie_completa">Funcție completă</option>
+                                <option value="certificat">Cu certificat</option>
+                                <option value="manual_original">Manual original</option>
+                                <option value="stare_perfecta">Stare perfectă</option>
+                            <% } %>
                         </select>
                     </div>
                 </div>
@@ -151,6 +300,68 @@
                 <!-- Butoane de control -->
                 <div class="row mt-4">
                     <div class="col-12">
+                        <!-- Sortare personalizabilă -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-sort-down"></i> Sortare personalizabilă
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <!-- Prima cheie de sortare -->
+                                    <div class="col-md-3">
+                                        <label for="sort-key-1" class="form-label small">Prima cheie:</label>
+                                        <select class="form-select form-select-sm" id="sort-key-1">
+                                            <option value="nume">Nume</option>
+                                            <option value="pret">Preț</option>
+                                            <option value="categorie">Categorie</option>
+                                            <option value="culoare">Culoare</option>
+                                            <option value="dimensiune">Dimensiune</option>
+                                            <option value="data">Data introducere</option>
+                                            <option value="garantie">Garanție</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="sort-order-1" class="form-label small">Ordine:</label>
+                                        <select class="form-select form-select-sm" id="sort-order-1">
+                                            <option value="asc">Crescător</option>
+                                            <option value="desc">Descrescător</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- A doua cheie de sortare -->
+                                    <div class="col-md-3">
+                                        <label for="sort-key-2" class="form-label small">A doua cheie:</label>
+                                        <select class="form-select form-select-sm" id="sort-key-2">
+                                            <option value="">-- Fără sortare secundară --</option>
+                                            <option value="nume">Nume</option>
+                                            <option value="pret" selected>Preț</option>
+                                            <option value="categorie">Categorie</option>
+                                            <option value="culoare">Culoare</option>
+                                            <option value="dimensiune">Dimensiune</option>
+                                            <option value="data">Data introducere</option>
+                                            <option value="garantie">Garanție</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="sort-order-2" class="form-label small">Ordine:</label>
+                                        <select class="form-select form-select-sm" id="sort-order-2">
+                                            <option value="asc">Crescător</option>
+                                            <option value="desc">Descrescător</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Buton de aplicare -->
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <button id="btn-sortare-custom" class="btn btn-success btn-sm w-100">
+                                            <i class="bi bi-check2"></i> Aplică
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="d-flex flex-wrap gap-2 justify-content-center">
                             <button id="btn-filtreaza" class="btn btn-primary btn-lg">
                                 <i class="bi bi-funnel-fill"></i>
@@ -180,11 +391,31 @@
 
         <!-- Sectiunea cu produsele -->
         <section id="produse-lista">
+            <!-- Controale paginare -->
+            <div id="pagination-controls" class="d-flex justify-content-between align-items-center mb-4">
+                <div class="pagination-info">
+                    <small class="text-muted">
+                        Afișez <span id="start-item">1</span>-<span id="end-item">12</span> 
+                        din <span id="total-items">0</span> produse
+                    </small>
+                </div>
+                
+                <div class="pagination-settings d-flex align-items-center gap-2">
+                    <label for="items-per-page" class="form-label mb-0 small">Produse pe pagină:</label>
+                    <select id="items-per-page" class="form-select form-select-sm" style="width: auto;">
+                        <option value="6">6</option>
+                        <option value="12" selected>12</option>
+                        <option value="18">18</option>
+                        <option value="24">24</option>
+                    </select>
+                </div>
+            </div>
+
             <% if (produse && produse.length > 0) { %>
-                <!-- Fix: Ensure the container ID matches JavaScript selector -->
-                <div class="row g-4" id="produse-container">
+                <!-- Container pentru 2 produse pe rând -->
+                <div class="d-flex flex-wrap" id="produse-container">
                     <% produse.forEach(function(produs) { %>
-                        <div class="col-lg-6 col-xl-4">
+                        <div class="produs-item">
                             <article id="artc-<%= produs.id %>" class="card h-100 produs-card <%= produs.categorie_mare %>" 
                                      data-nume="<%= produs.nume.toLowerCase() %>"
                                      data-descriere="<%= produs.descriere.toLowerCase() %>"
@@ -195,18 +426,42 @@
                                      data-tip="<%= produs.tip_prezentare %>"
                                      data-data="<%= produs.data_introducere %>"
                                      data-caracteristici="<%= produs.caracteristici_speciale || '' %>"
-                                     data-garantie="<%= produs.garantie %>">
+                                     data-garantie="<%= produs.garantie %>"
+                                     data-product-id="<%= produs.id %>"
+                                     onclick="openProductModal('<%= produs.id %>')"
+                                     role="button"
+                                     tabindex="0">
                                 
                                 <div class="row g-0 h-100">
-                                    <!-- Prima coloană: Imagine și caracteristici -->
+                                    <!-- Prima coloană: Imagine -->
                                     <div class="col-md-5">
+                                        <!-- Butoane de acțiune -->
+                                        <div class="product-actions">
+                                            <button class="btn btn-sm btn-outline-warning pin-product" 
+                                                    data-product-id="<%= produs.id %>"
+                                                    title="Păstrează produsul afișat mereu (nu dispare la filtrare)">
+                                                <i class="bi bi-pin"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary hide-temp" 
+                                                    data-product-id="<%= produs.id %>"
+                                                    title="Ascunde temporar produsul din afișarea curentă">
+                                                <i class="bi bi-eye-slash"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger hide-session" 
+                                                    data-product-id="<%= produs.id %>"
+                                                    title="Ascunde produsul pentru toată sesiunea (tab-ul curent)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        
                                         <img src="/src/img/produse/<%= produs.imagine %>" 
-                                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                                             class="img-fluid h-100 w-100" 
                                              alt="<%= produs.nume %>" 
-                                             title="<%= produs.nume %>">
+                                             title="<%= produs.nume %>"
+                                             style="object-fit: cover;">
                                     </div>
 
-                                    <!-- A doua coloană: Categorie și descriere -->
+                                    <!-- A doua coloană: Detalii produs -->
                                     <div class="col-md-7">
                                         <div class="card-body d-flex flex-column h-100">
                                             <h5 class="card-title">
@@ -214,40 +469,165 @@
                                                     <%= produs.nume %>
                                                 </a>
                                             </h5>
-                                            <p class="card-text">
-                                                <small class="text-muted">
-                                                    <i class="bi bi-tag"></i> 
-                                                    <%= produs.categorie_mare.charAt(0).toUpperCase() + produs.categorie_mare.slice(1) %>
-                                                </small>
-                                            </p>
+                                            
                                             <p class="card-text flex-grow-1"><%= produs.descriere %></p>
                                             
-                                            <!-- Caracteristici în listă compactă -->
-                                            <ul class="list-unstyled small mb-3">
-                                                <li><strong>Preț:</strong> <span class="text-primary"><%= produs.pret %> RON</span></li>
-                                                <li><strong>Dimensiune:</strong> <%= produs.dimensiune %> cm</li>
-                                                <li><strong>Culoare:</strong> <%= produs.culoare %></li>
-                                                <li><strong>Garanție:</strong> 
-                                                    <% if (produs.garantie) { %>
-                                                        <span class="badge bg-success">Da</span>
-                                                    <% } else { %>
-                                                        <span class="badge bg-secondary">Nu</span>
-                                                    <% } %>
-                                                </li>
-                                            </ul>
+                                            <div class="product-price-container mb-2">
+                                                <div class="price-display" data-original-price="<%= produs.pret %>" data-category="<%= produs.categorie_mare %>">
+                                                    <span class="current-price fw-bold text-primary fs-5"><%= produs.pret %> RON</span>
+                                                    <span class="original-price text-muted text-decoration-line-through" style="display: none;"></span>
+                                                    <span class="discount-badge badge bg-danger ms-2" style="display: none;"></span>
+                                                </div>
+                                            </div>
                                             
-                                            <div class="mt-auto">
-                                                <a href="/produs/<%= produs.id %>" class="btn btn-primary">
-                                                    <i class="bi bi-eye"></i> Vezi detalii
-                                                </a>
+                                            <!-- Acțiuni -->
+                                            <div class="produs-actions">
+                                                <div class="d-flex gap-2 justify-content-between">
+                                                    <a href="/produs/<%= produs.id %>" class="btn btn-primary flex-grow-1" onclick="event.stopPropagation();">
+                                                        <i class="bi bi-eye"></i>
+                                                        Vezi pagina completă
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex gap-2 mt-2">
+                                                    <button class="btn btn-compare" 
+                                                            data-product-id="<%= produs.id %>"
+                                                            title="Adaugă la comparare">
+                                                        <i class="fas fa-balance-scale"></i>
+                                                        <span class="btn-text">Compară</span>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                
+                                <!-- Date ascunse pentru modal -->
+                                <div class="d-none product-data"
+                                     data-id="<%= produs.id %>"
+                                     data-nume="<%= produs.nume %>"
+                                     data-descriere="<%= produs.descriere %>"
+                                     data-pret="<%= produs.pret %>"
+                                     data-dimensiune="<%= produs.dimensiune %>"
+                                     data-categorie="<%= produs.categorie_mare %>"
+                                     data-culoare="<%= produs.culoare %>"
+                                     data-tip="<%= produs.tip_prezentare %>"
+                                     data-data="<%= produs.data_introducere %>"
+                                     data-caracteristici="<%= produs.caracteristici_speciale || '' %>"
+                                     data-garantie="<%= produs.garantie %>"
+                                     data-imagine="<%= produs.imagine %>">
                                 </div>
                             </article>
                         </div>
                     <% }); %>
                 </div>
+
+                <!-- Modal pentru afișarea detaliilor produsului -->
+                <div class="modal fade product-modal" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="productModalLabel">
+                                    <i class="bi bi-box-seam"></i> Detalii produs
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Închide"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <!-- Coloana pentru imagine -->
+                                    <div class="col-md-6">
+                                        <img id="modal-product-image" src="" alt="" class="img-fluid product-image w-100">
+                                    </div>
+                                    
+                                    <!-- Coloana pentru detalii -->
+                                    <div class="col-md-6">
+                                        <h4 id="modal-product-name" class="mb-3"></h4>
+                                        
+                                        <div class="mb-3">
+                                            <span id="modal-product-category" class="badge bg-primary fs-6"></span>
+                                        </div>
+                                        
+                                        <p id="modal-product-description" class="mb-4"></p>
+                                        
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="bg-light p-3 rounded">
+                                                    <h6 class="text-muted mb-1">Preț</h6>
+                                                    <h5 id="modal-product-price" class="text-success mb-0"></h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="bg-light p-3 rounded">
+                                                    <h6 class="text-muted mb-1">Dimensiune</h6>
+                                                    <h6 id="modal-product-size" class="mb-0"></h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="bg-light p-3 rounded">
+                                                    <h6 class="text-muted mb-1">Culoare</h6>
+                                                    <span id="modal-product-color" class="badge bg-secondary"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="bg-light p-3 rounded">
+                                                    <h6 class="text-muted mb-1">Garanție</h6>
+                                                    <span id="modal-product-warranty" class="badge"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <div class="bg-light p-3 rounded">
+                                                <h6 class="text-muted mb-1">Tip prezentare</h6>
+                                                <span id="modal-product-type" class="text-muted"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3" id="modal-characteristics-container" style="display: none;">
+                                            <div class="bg-light p-3 rounded">
+                                                <h6 class="text-muted mb-2">Caracteristici speciale</h6>
+                                                <div id="modal-product-characteristics"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <div class="bg-light p-3 rounded">
+                                                <h6 class="text-muted mb-1">Data introducere</h6>
+                                                <small id="modal-product-date" class="text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-lg"></i> Închide
+                                </button>
+                                <button type="button" class="btn btn-primary" id="modal-view-details">
+                                    <i class="bi bi-box-arrow-up-right"></i> Vezi pagina completă
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mesaj când nu sunt produse găsite după filtrare -->
+                <div id="no-products-message" class="alert alert-warning text-center" style="display: none;">
+                    <i class="bi bi-search"></i>
+                    <h5 class="mt-2">Nu au fost găsite produse</h5>
+                    <p class="mb-2">Nu există produse care să corespundă criteriilor de filtrare selectate.</p>
+                    <button id="btn-reset-filters" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-clockwise"></i> Resetează filtrele
+                    </button>
+                </div>
+
+                <!-- Paginare orizontală -->
+                <nav aria-label="Paginare produse" class="mt-4">
+                    <div class="d-flex justify-content-center">
+                        <ul class="pagination flex-row" id="pagination-list">
+                            <!-- Generat dinamic prin JavaScript -->
+                        </ul>
+                    </div>
+                </nav>
             <% } else { %>
                 <div class="alert alert-info text-center">
                     <i class="bi bi-info-circle"></i>
@@ -261,5 +641,353 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/src/js/produse-filtre.js"></script>
+    <script src="/src/js/cheapest-product.js"></script>
+    <script src="/src/js/comparare-produse.js"></script>
+    <script src="/src/js/oferte.js"></script>
+    
+    <script>
+        // Funcție pentru deschiderea modal-ului cu detaliile produsului
+        function openProductModal(productId) {
+            const productData = document.querySelector(`[data-id="${productId}"]`);
+            if (!productData) return;
+            
+            // Populează modal-ul cu datele produsului
+            document.getElementById('modal-product-name').textContent = productData.dataset.nume;
+            document.getElementById('modal-product-description').textContent = productData.dataset.descriere;
+            document.getElementById('modal-product-price').textContent = productData.dataset.pret + ' RON';
+            document.getElementById('modal-product-size').textContent = productData.dataset.dimensiune + ' cm';
+            document.getElementById('modal-product-color').textContent = productData.dataset.culoare.charAt(0).toUpperCase() + productData.dataset.culoare.slice(1);
+            document.getElementById('modal-product-category').textContent = productData.dataset.categorie.charAt(0).toUpperCase() + productData.dataset.categorie.slice(1);
+            document.getElementById('modal-product-type').textContent = productData.dataset.tip.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            
+            // Setează imaginea
+            const modalImage = document.getElementById('modal-product-image');
+            modalImage.src = `/src/img/produse/${productData.dataset.imagine}`;
+            modalImage.alt = productData.dataset.nume;
+            
+            // Setează garanția
+            const warrantyBadge = document.getElementById('modal-product-warranty');
+            if (productData.dataset.garantie === 'true') {
+                warrantyBadge.textContent = 'Da';
+                warrantyBadge.className = 'badge bg-success';
+            } else {
+                warrantyBadge.textContent = 'Nu';
+                warrantyBadge.className = 'badge bg-secondary';
+            }
+            
+            // Setează data
+            const date = new Date(productData.dataset.data);
+            document.getElementById('modal-product-date').textContent = date.toLocaleDateString('ro-RO');
+            
+            // Setează caracteristicile speciale
+            const characteristics = productData.dataset.caracteristici;
+            const characteristicsContainer = document.getElementById('modal-characteristics-container');
+            const characteristicsDiv = document.getElementById('modal-product-characteristics');
+            
+            if (characteristics && characteristics.trim() !== '') {
+                characteristicsContainer.style.display = 'block';
+                const charArray = characteristics.split(',').map(char => char.trim());
+                characteristicsDiv.innerHTML = charArray.map(char => 
+                    `<span class="badge bg-info me-1 mb-1">${char.charAt(0).toUpperCase() + char.slice(1)}</span>`
+                ).join('');
+            } else {
+                characteristicsContainer.style.display = 'none';
+            }
+            
+            // Setează link-ul pentru pagina completă
+            document.getElementById('modal-view-details').onclick = function() {
+                window.location.href = `/produs/${productId}`;
+            };
+            
+            // Deschide modal-ul
+            const modal = new bootstrap.Modal(document.getElementById('productModal'));
+            modal.show();
+        }
+
+        // Event listener pentru butoanele de comparare
+        document.addEventListener('DOMContentLoaded', function() {
+            // Previne propagarea pentru butoanele din card
+            document.querySelectorAll('.btn-compare').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    
+                    console.log('Buton comparare apăsat pentru produsul:', this.dataset.productId);
+                    
+                    // Trigger manual pentru event-ul de comparare
+                    if (window.comparareManager) {
+                        const productData = this.closest('.produs-card');
+                        if (productData) {
+                            window.comparareManager.handleCompareClick(this, this.dataset.productId);
+                        }
+                    }
+                });
+            });
+
+            // ...existing code...
+        });
+
+        // Funcție pentru verificarea și afișarea mesajului "nu sunt produse"
+        function checkAndShowNoProductsMessage() {
+            const visibleProducts = document.querySelectorAll('.produs-item:not([style*="display: none"]):not([style*="display:none"])');
+            const noProductsMessage = document.getElementById('no-products-message');
+            const paginationControls = document.getElementById('pagination-controls');
+            const paginationNav = document.querySelector('nav[aria-label="Paginare produse"]');
+            
+            if (visibleProducts.length === 0) {
+                // Nu sunt produse vizibile - afișează mesajul
+                noProductsMessage.style.display = 'block';
+                if (paginationControls) paginationControls.style.display = 'none';
+                if (paginationNav) paginationNav.style.display = 'none';
+            } else {
+                // Sunt produse vizibile - ascunde mesajul
+                noProductsMessage.style.display = 'none';
+                if (paginationControls) paginationControls.style.display = 'flex';
+                if (paginationNav) paginationNav.style.display = 'block';
+            }
+            
+            // Actualizează informațiile de paginare
+            updatePaginationInfo(visibleProducts.length);
+        }
+        
+        // Funcție pentru actualizarea informațiilor de paginare
+        function updatePaginationInfo(totalVisible) {
+            const totalItemsSpan = document.getElementById('total-items');
+            const startItemSpan = document.getElementById('start-item');
+            const endItemSpan = document.getElementById('end-item');
+            
+            if (totalItemsSpan) totalItemsSpan.textContent = totalVisible;
+            if (startItemSpan) startItemSpan.textContent = totalVisible > 0 ? '1' : '0';
+            if (endItemSpan) endItemSpan.textContent = totalVisible.toString();
+        }
+        
+        // Funcție pentru resetarea filtrelor
+        function resetFilters() {
+            // Resetează toate input-urile
+            document.getElementById('filtru-nume').value = '';
+            document.getElementById('filtru-descriere').value = '';
+            document.getElementById('filtru-tip').value = '';
+            document.getElementById('culoare-toate').checked = true;
+            document.getElementById('filtru-noutati').checked = false;
+            document.getElementById('filtru-garantie').checked = false;
+            document.getElementById('filtru-categorie').value = '';
+            
+            // Resetează select multiple
+            const caracteristiciSelect = document.getElementById('filtru-caracteristici');
+            if (caracteristiciSelect) {
+                for (let option of caracteristiciSelect.options) {
+                    option.selected = false;
+                }
+            }
+            
+            // Resetează range-ul de preț la valoarea maximă
+            const pretRange = document.getElementById('filtru-pret');
+            if (pretRange) {
+                pretRange.value = pretRange.max;
+                const pretSelectat = document.getElementById('pret-selectat');
+                if (pretSelectat) pretSelectat.textContent = pretRange.max;
+            }
+            
+            // Afișează toate produsele (inclusiv cele ascunse temporar, dar nu cele ascunse pentru sesiune)
+            const hiddenSessionProducts = JSON.parse(sessionStorage.getItem('hiddenSessionProducts') || '[]');
+            const allProducts = document.querySelectorAll('.produs-item');
+            allProducts.forEach(product => {
+                const productCard = product.querySelector('.produs-card');
+                const productId = productCard ? productCard.dataset.productId : null;
+                
+                // Nu afișa produsele ascunse pentru sesiune
+                if (!hiddenSessionProducts.includes(productId)) {
+                    product.style.display = 'block';
+                }
+            });
+            
+            // Verifică și actualizează mesajul
+            checkAndShowNoProductsMessage();
+        }
+        
+        // Funcție pentru aplicarea filtrelor cu respectarea produselor fixate
+        function aplicaFiltreCustom() {
+            // Aplică filtrele normale din produse-filtre.js
+            if (typeof aplicaFiltre === 'function') {
+                aplicaFiltre();
+            }
+            
+            // După aplicarea filtrelor, asigură-te că produsele pinned rămân vizibile
+            setTimeout(() => {
+                const pinnedProducts = document.querySelectorAll('.produs-card.pinned');
+                pinnedProducts.forEach(pinnedCard => {
+                    const pinnedItem = pinnedCard.closest('.produs-item');
+                    if (pinnedItem) {
+                        pinnedItem.style.display = 'block';
+                    }
+                });
+                
+                // Verifică și actualizează mesajul după ce ai afișat produsele pinned
+                checkAndShowNoProductsMessage();
+            }, 150);
+        }
+        
+        // Event listener pentru butonul de reset din mesajul "no products"
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restaurează produsele ascunse pentru sesiune la încărcarea paginii
+            const hiddenSessionProducts = JSON.parse(sessionStorage.getItem('hiddenSessionProducts') || '[]');
+            console.log('Produse ascunse pentru sesiune:', hiddenSessionProducts);
+            
+            hiddenSessionProducts.forEach(productId => {
+                const productCard = document.getElementById(`artc-${productId}`);
+                if (productCard) {
+                    const productItem = productCard.closest('.produs-item');
+                    if (productItem) {
+                        productItem.style.display = 'none';
+                        console.log(`Produs ${productId} ascuns automat la încărcarea paginii`);
+                    }
+                }
+            });
+            
+            // Previne propagarea pentru butoanele de acțiune și adaugă funcționalitatea
+            document.querySelectorAll('.product-actions button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    const productId = this.dataset.productId;
+                    const productCard = document.getElementById(`artc-${productId}`);
+                    const productItem = productCard.closest('.produs-item');
+                    
+                    if (this.classList.contains('pin-product')) {
+                        // Toggle pin status
+                        if (productCard.classList.contains('pinned')) {
+                            productCard.classList.remove('pinned');
+                            this.classList.remove('btn-warning');
+                            this.classList.add('btn-outline-warning');
+                            this.title = 'Păstrează produsul afișat mereu (nu dispare la filtrare)';
+                        } else {
+                            productCard.classList.add('pinned');
+                            this.classList.remove('btn-outline-warning');
+                            this.classList.add('btn-warning');
+                            this.title = 'Anulează fixarea produsului';
+                        }
+                    } else if (this.classList.contains('hide-temp')) {
+                        // Hide temporarily (until page refresh or filter reset)
+                        productItem.style.display = 'none';
+                        checkAndShowNoProductsMessage();
+                    } else if (this.classList.contains('hide-session')) {
+                        // Hide for entire session
+                        if (confirm('Sigur vrei să ascunzi acest produs pentru toată sesiunea?')) {
+                            // Store in sessionStorage with correct key
+                            let hiddenSessionProducts = JSON.parse(sessionStorage.getItem('hiddenSessionProducts') || '[]');
+                            if (!hiddenSessionProducts.includes(productId)) {
+                                hiddenSessionProducts.push(productId);
+                                sessionStorage.setItem('hiddenSessionProducts', JSON.stringify(hiddenSessionProducts));
+                                console.log('Produs adăugat în sessionStorage:', productId);
+                                console.log('Lista actualizată:', hiddenSessionProducts);
+                            }
+                            
+                            // Hide the product immediately
+                            productItem.style.display = 'none';
+                            checkAndShowNoProductsMessage();
+                            
+                            // Dispatch event pentru actualizarea în produse-filtre.js
+                            document.dispatchEvent(new CustomEvent('sessionProductHidden', {
+                                detail: { productId: productId }
+                            }));
+                        }
+                    }
+                });
+            });
+            
+            // Restore hidden products from sessionStorage on page load
+            const hiddenProducts = JSON.parse(sessionStorage.getItem('hiddenProducts') || '[]');
+            hiddenProducts.forEach(productId => {
+                const productCard = document.getElementById(`artc-${productId}`);
+                if (productCard) {
+                    const productItem = productCard.closest('.produs-item');
+                    if (productItem) {
+                        productItem.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Previne propagarea pentru link-urile din card
+            document.querySelectorAll('.produs-card a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Permite navigarea normală pentru link-uri
+                });
+            });
+            
+            // Previne propagarea pentru butonul "Vezi detalii" 
+            document.querySelectorAll('.produs-card .btn').forEach(button => {
+                if (button.textContent.includes('Vezi detalii')) {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // Redirecționează la pagina produsului
+                        const productCard = this.closest('.produs-card');
+                        const productId = productCard.dataset.productId;
+                        if (productId) {
+                            window.location.href = `/produs/${productId}`;
+                        }
+                    });
+                }
+            });
+            
+            // Suport pentru tastatura (Enter și Space)
+            document.querySelectorAll('.produs-card').forEach(card => {
+                card.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const productId = this.dataset.productId;
+                        if (productId) {
+                            openProductModal(productId);
+                        }
+                    }
+                });
+            });
+            
+            // Event listener pentru butonul de reset din mesajul "no products"
+            const resetButton = document.getElementById('btn-reset-filters');
+            if (resetButton) {
+                resetButton.addEventListener('click', resetFilters);
+            }
+            
+            // Event listener pentru butonul principal de resetare
+            const mainResetButton = document.getElementById('btn-reseteaza');
+            if (mainResetButton) {
+                mainResetButton.addEventListener('click', function() {
+                    resetFilters();
+                });
+            }
+            
+            // Event listener pentru butonul de filtrare - folosește funcția custom
+            const filterButton = document.getElementById('btn-filtreaza');
+            if (filterButton) {
+                filterButton.addEventListener('click', function() {
+                    aplicaFiltreCustom();
+                });
+            }
+            
+            // Observer pentru a detecta când produsele sunt ascunse/afișate
+            const observer = new MutationObserver(function(mutations) {
+                let shouldCheck = false;
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        shouldCheck = true;
+                    }
+                });
+                
+                if (shouldCheck) {
+                    setTimeout(checkAndShowNoProductsMessage, 50);
+                }
+            });
+            
+            // Observă toate produsele pentru schimbări de stil
+            const allProducts = document.querySelectorAll('.produs-item');
+            allProducts.forEach(product => {
+                observer.observe(product, { attributes: true, attributeFilter: ['style'] });
+            });
+            
+            // Verificare inițială
+            checkAndShowNoProductsMessage();
+        });
+    </script>
 </body>
-</html>
+</html><!DOCTYPE html>

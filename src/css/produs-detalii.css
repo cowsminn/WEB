@@ -1,0 +1,298 @@
+/* Stiluri pentru secțiunea produse similare */
+.produse-similare-container {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.produse-similare-title {
+    text-align: center;
+    color: #495057;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.produse-similare-title i {
+    color: #CB4967;
+    margin-right: 0.5rem;
+}
+
+.produse-similare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.produs-similar-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.produs-similar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.produs-similar-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.produs-similar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.produs-similar-card:hover .produs-similar-image img {
+    transform: scale(1.05);
+}
+
+.produs-similar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(203, 73, 103, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-weight: 600;
+}
+
+.produs-similar-card:hover .produs-similar-overlay {
+    opacity: 1;
+}
+
+.produs-similar-overlay i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.produs-similar-content {
+    padding: 1.5rem;
+}
+
+.produs-similar-name {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.produs-similar-name a {
+    color: #495057;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.produs-similar-name a:hover {
+    color: #CB4967;
+}
+
+.produs-similar-description {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.produs-similar-details {
+    margin-bottom: 1.5rem;
+}
+
+.produs-similar-price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: #CB4967;
+    font-size: 1.1rem;
+}
+
+.produs-similar-price i {
+    margin-right: 0.5rem;
+    color: #F2305E;
+}
+
+.produs-similar-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.feature-item {
+    display: inline-flex;
+    align-items: center;
+    background: #e9ecef;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.feature-item i {
+    margin-right: 0.25rem;
+    font-size: 0.7rem;
+}
+
+.feature-item.warranty {
+    background: #d4edda;
+    color: #155724;
+}
+
+.produs-similar-actions {
+    text-align: center;
+}
+
+.btn-vezi-produs {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #CB4967, #F2305E);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-vezi-produs:hover {
+    background: linear-gradient(135deg, #F2305E, #CB4967);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(203, 73, 103, 0.3);
+}
+
+.btn-vezi-produs i {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-vezi-produs:hover i {
+    transform: translateX(3px);
+}
+
+.produse-similare-footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 2px solid #dee2e6;
+}
+
+.btn-vezi-toate {
+    display: inline-flex;
+    align-items: center;
+    background: #6c757d;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-vezi-toate:hover {
+    background: #495057;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(108, 117, 125, 0.3);
+}
+
+.btn-vezi-toate i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+}
+
+/* Responsive design pentru produse similare */
+@media (max-width: 768px) {
+    .produse-similare-container {
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+    
+    .produse-similare-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .produs-similar-image {
+        height: 160px;
+    }
+    
+    .produs-similar-content {
+        padding: 1rem;
+    }
+    
+    .produse-similare-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .produse-similare-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .produs-similar-image {
+        height: 180px;
+    }
+    
+    .feature-item {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    .btn-vezi-produs,
+    .btn-vezi-toate {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Dark theme support pentru produse similare */
+[data-theme="dark"] .produse-similare-container {
+    background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+}
+
+[data-theme="dark"] .produse-similare-title {
+    color: #f8f9fa;
+}
+
+[data-theme="dark"] .produs-similar-card {
+    background: #495057;
+}
+
+[data-theme="dark"] .produs-similar-name a {
+    color: #f8f9fa;
+}
+
+[data-theme="dark"] .produs-similar-description {
+    color: #adb5bd;
+}
+
+[data-theme="dark"] .feature-item {
+    background: #6c757d;
+    color: #f8f9fa;
+}
+
+[data-theme="dark"] .feature-item.warranty {
+    background: #198754;
+    color: #f8f9fa;
+}

@@ -169,3 +169,25 @@ body {
     border-radius: 1rem;
     border-width: 2px;
 }
+
+// Stiluri pentru cel mai ieftin produs
+.cheapest-product {
+    position: relative;
+    border-color: #FFD700 !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+    
+    .card-body {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+    }
+}
+
+// Dark theme pentru cel mai ieftin produs
+[data-theme="dark"] {
+    .cheapest-product {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.7) !important;
+        
+        .card-body {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.08));
+        }
+    }
+}

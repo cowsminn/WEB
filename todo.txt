@@ -1,1 +1,24 @@
 reviziuit etapa 5
+
+Etapa 6
+Bonus 1, 
+Bonus 3 - mesaj când nu sunt produse după filtrare (0.05p) ✅ REZOLVAT
+Bonus 5 - sistem de paginare cu K elemente pe pagină (0.5p) ✅ REZOLVAT
+Bonus 6 - trei butoane pentru fiecare produs (0.5p): ✅ REZOLVAT
+  - pin/unpin produs (nu dispare la filtrare) ✅
+  - șterge temporar din afișare ✅
+  - șterge pentru sesiune (sessionStorage) ✅
+Bonus 7 - ignoră diacriticele în căutare text (0.15p) ✅ REZOLVAT
+Bonus 8 - sortare duală personalizabilă (0.35p) ✅ REZOLVAT
+Bonus 11
+Bonus 12
+Bonus 14 - produse cele mai ieftine din categoria lor (0.2p) ✅ REZOLVAT
+Bonus 15
+Bonus 16 - produse similare pe pagina individuală (0.3p) ✅ REZOLVAT
+Bonus 20 - comparare produse (1.5p) ✅ REZOLVAT
+  - buton "compară" pe toate paginile cu produse ✅
+  - container fix cu produsele de comparat ✅
+  - persistență în localStorage cu expirare ✅
+  - gestionare ștergere produse din comparare ✅
+  - dezactivare butoane când sunt 2 produse ✅
+  - fereastră nouă cu comparația detaliată ✅

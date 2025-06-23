@@ -8,6 +8,20 @@
     
     <main>
         
+        <!-- Secțiunea de oferte -->
+        <div id="oferte-container" class="alert alert-info m-3" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="oferta-content">
+                    <h5 class="mb-1"><i class="fas fa-percentage"></i> Ofertă specială!</h5>
+                    <p id="oferta-text" class="mb-0">Se încarcă oferta...</p>
+                </div>
+                <div class="timer-container text-end">
+                    <div id="timer" class="fw-bold fs-5 text-danger"></div>
+                    <small class="text-muted">Timp rămas</small>
+                </div>
+            </div>
+        </div>
+        
         <div id="grid-pagina">
             <!-- Zona 1: Prezentare (Z-pattern) -->
             <section id="welcome" class="z-pattern">
@@ -274,5 +288,7 @@
         });
     });
     </script>
+    <!-- Script pentru gestionarea ofertelor -->
+    <script src="/src/js/oferte.js"></script>
 </body>
 </html>

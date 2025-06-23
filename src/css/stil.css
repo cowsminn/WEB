@@ -881,3 +881,95 @@ img, iframe, table, figure {
         aspect-ratio: 16/9;
     }
 }
+
+/* Buton pentru afișarea orarului */
+.btn-orar, .link-orar {
+    background: linear-gradient(135deg, var(--culoare-2), var(--culoare-principala));
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(var(--culoare-principala-rgb), 0.3);
+    font-size: 0.95rem;
+}
+
+.btn-orar:hover, .link-orar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--culoare-principala-rgb), 0.4);
+    background: linear-gradient(135deg, var(--culoare-principala), var(--culoare-1));
+    text-decoration: none;
+    color: white;
+}
+
+.btn-orar:active, .link-orar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(var(--culoare-principala-rgb), 0.3);
+}
+
+.btn-orar i, .link-orar i {
+    font-size: 1.1em;
+}
+
+/* Buton orar în header */
+.header-orar-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.header-orar-btn .btn-orar {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+.header-orar-btn .btn-orar:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Responsive pentru butonul de orar */
+@media (max-width: 768px) {
+    .header-orar-btn {
+        top: 10px;
+        left: 15px;
+    }
+    
+    .header-orar-btn .btn-orar {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .btn-orar, .link-orar {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-orar-btn {
+        top: 8px;
+        left: 10px;
+    }
+    
+    .header-orar-btn .btn-orar {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+    
+    .btn-orar, .link-orar {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
